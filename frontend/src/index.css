@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #FAF8F5;
+    color: #173740;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom card and button styles */
+.crediwise-card {
+  background-color: #FFFFFF;
+  border: 1px solid #EBE6DC;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px -2px rgba(19, 46, 53, 0.04), 0 4px 16px -4px rgba(19, 46, 53, 0.02);
+}
+
+.crediwise-pill {
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D5CEBE;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8B09F;
+}

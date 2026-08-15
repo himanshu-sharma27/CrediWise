@@ -1,0 +1,237 @@
+# ============================================================
+# CrediWise AI — Root .gitignore
+# ============================================================
+
+
+# ------------------------------------------------------------
+# ENVIRONMENT & SECRETS
+# ------------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+*.local
+*.secret
+secrets/
+secrets.json
+
+
+# ------------------------------------------------------------
+# PYTHON
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+*.egg
+
+# Python tooling
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+
+# Jupyter
+.ipynb_checkpoints/
+
+
+# ------------------------------------------------------------
+# DATABASE
+# ------------------------------------------------------------
+# Local SQLite databases — DO NOT COMMIT
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Keep database directory if needed
+!**/db/.gitkeep
+
+
+# ------------------------------------------------------------
+# MACHINE LEARNING
+# ------------------------------------------------------------
+# Ignore generic generated model artifacts
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.keras
+*.onnx
+*.pt
+*.pth
+
+# ML experiment/output directories
+ml/artifacts/
+ml/checkpoints/
+ml/outputs/
+ml/runs/
+ml/logs/
+
+# Ignore other model files in the models directory
+ml/models/*
+
+# Keep directory placeholder
+!ml/models/.gitkeep
+
+# IMPORTANT:
+# CrediWise certified production model is intentionally tracked.
+!ml/models/loan_model_v2.joblib
+
+
+# ------------------------------------------------------------
+# DATASETS
+# ------------------------------------------------------------
+# Keep raw source dataset if permitted by its license
+# data/raw/loan_approval_dataset.csv
+
+# Ignore generated/processed datasets
+data/processed/*
+!data/processed/.gitkeep
+
+
+# ------------------------------------------------------------
+# NODE / REACT / VITE
+# ------------------------------------------------------------
+node_modules/
+frontend/node_modules/
+
+# Vite production build
+frontend/dist/
+dist/
+
+# Vite cache
+frontend/.vite/
+.vite/
+
+# Frontend coverage
+frontend/coverage/
+coverage/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package manager caches
+.npm/
+.yarn/
+.pnpm-store/
+
+
+# ------------------------------------------------------------
+# TYPESCRIPT
+# ------------------------------------------------------------
+*.tsbuildinfo
+
+
+# ------------------------------------------------------------
+# FRONTEND ENVIRONMENT FILES
+# ------------------------------------------------------------
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+
+# ------------------------------------------------------------
+# BACKEND ENVIRONMENT FILES
+# ------------------------------------------------------------
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+
+# ------------------------------------------------------------
+# LOGS
+# ------------------------------------------------------------
+*.log
+logs/
+*.out
+
+
+# ------------------------------------------------------------
+# IDE / EDITOR
+# ------------------------------------------------------------
+.vscode/
+.idea/
+*.iml
+
+*.swp
+*.swo
+*.swn
+
+.project
+.classpath
+.settings/
+
+
+# ------------------------------------------------------------
+# OPERATING SYSTEM
+# ------------------------------------------------------------
+.DS_Store
+.DS_Store?
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# ------------------------------------------------------------
+# TEMPORARY FILES
+# ------------------------------------------------------------
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+*~
+
+tmp/
+temp/
+
+
+# ------------------------------------------------------------
+# TEST / LOCAL ARTIFACTS
+# ------------------------------------------------------------
+test-results/
+playwright-report/
+blob-report/
+.nyc_output/
+
+*.coverage
+
+
+# ------------------------------------------------------------
+# LOCAL DEVELOPMENT / GENERATED REPORTS
+# ------------------------------------------------------------
+*.local.md
+*.generated.md

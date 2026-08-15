@@ -1,0 +1,125 @@
+"""CrediWiseAI - Eligibility & Criteria API Endpoints.
+
+Public endpoint providing underwriting guidelines, benchmark metrics,
+and feature definitions strictly aligned with the Kaggle INR dataset.
+"""
+
+from __future__ import annotations
+
+from fastapi import APIRouter
+from backend.app.core.config import settings
+from backend.app.schemas.schemas import EligibilityRuleItem, EligibilityRulesResponse
+
+router = APIRouter(prefix="/eligibility", tags=["Eligibility"])
+
+
+@router.get(
+    "/rules",
+    response_model=EligibilityRulesResponse,
+    summary="Retrieve public eligibility guidelines and dataset criteria",
+)
+def get_eligibility_rules() -> EligibilityRulesResponse:
+    """Returns the official underwriting guidelines and feature benchmarks in INR."""
+    features = [
+        EligibilityRuleItem(
+            field_name="income_annum",
+            display_name="Annual Gross Income",
+            type="Numeric (INR)",
+            description="Total verified annual earnings from all sources.",
+            benchmark_or_range="₹2,00,000 to ₹1,00,00,000+ per annum",
+        ),
+        EligibilityRuleItem(
+            field_name="loan_amount",
+            display_name="Requested Loan Principal",
+            type="Numeric (INR)",
+            description="Requested borrowing amount in Indian Rupees.",
+            benchmark_or_range="₹3,00,000 to ₹4,00,00,000+",
+        ),
+        EligibilityRuleItem(
+            field_name="loan_term",
+            display_name="Loan Tenure",
+            type="Integer (Years)",
+            description="Repayment period duration in years.",
+            benchmark_or_range="1 to 40 Years (12 to 480 Months)",
+        ),
+        EligibilityRuleItem(
+            field_name="cibil_score",
+            display_name="Credit Bureau Score (CIBIL)",
+            type="Integer",
+            description="Primary credit score indicating past repayment track record.",
+            benchmark_or_range="300 to 900 (750+ Prime, >=550 Benchmark)",
+        ),
+        EligibilityRuleItem(
+            field_name="education",
+            display_name="Education Qualification",
+            type="Categorical",
+            description="Applicant's highest completed formal education level.",
+            benchmark_or_range="'Graduate' or 'Not Graduate'",
+        ),
+        EligibilityRuleItem(
+            field_name="self_employed",
+            display_name="Employment Status",
+            type="Categorical",
+            description="Self-employed business owner or salaried individual.",
+            benchmark_or_range="'Yes' (Self-Employed) or 'No' (Salaried)",
+        ),
+        EligibilityRuleItem(
+            field_name="no_of_dependents",
+            display_name="Number of Dependents",
+            type="Integer",
+            description="Number of family members financially reliant on applicant.",
+            benchmark_or_range="0 to 20",
+        ),
+        EligibilityRuleItem(
+            field_name="residential_assets_value",
+            display_name="Residential Real Estate",
+            type="Numeric (INR)",
+            description="Market valuation of residential properties owned.",
+            benchmark_or_range="₹0 to ₹10,00,00,000+",
+        ),
+        EligibilityRuleItem(
+            field_name="commercial_assets_value",
+            display_name="Commercial Real Estate",
+            type="Numeric (INR)",
+            description="Market valuation of commercial shops, offices, or land.",
+            benchmark_or_range="₹0 to ₹10,00,00,000+",
+        ),
+        EligibilityRuleItem(
+            field_name="luxury_assets_value",
+            display_name="Luxury Assets Value",
+            type="Numeric (INR)",
+            description="Market valuation of vehicles, jewelry, and movable luxury assets.",
+            benchmark_or_range="₹0 to ₹10,00,00,000+",
+        ),
+        EligibilityRuleItem(
+            field_name="bank_asset_value",
+            display_name="Bank Liquid Deposits",
+            type="Numeric (INR)",
+            description="Total balances across savings accounts, fixed deposits, and mutual funds.",
+            benchmark_or_range="₹0 to ₹10,00,00,000+",
+        ),
+    ]
+
+    cibil_guide = {
+        "750 - 900": "Prime Credit — Strongest approval probability, excellent repayment history.",
+        "700 - 749": "Good Credit — High approval confidence, standard terms.",
+        "650 - 699": "Fair Credit — Moderate approval probability; asset ratios and cash flow are evaluated.",
+        "550 - 649": "Borderline Credit — Conditional evaluation dependent on low debt-to-income ratio.",
+        "300 - 549": "Sub-Prime / High Risk — High statistical default probability on historical data.",
+    }
+
+    disclaimer = (
+        "CrediWiseAI provides machine learning-based statistical estimates of loan approval probabilities "
+        "trained on historical Kaggle loan approval data. Predictions generated by this system are for advisory "
+        "and decision-support purposes only and do not constitute a binding financial agreement or guarantee of loan sanction."
+    )
+
+    return EligibilityRulesResponse(
+        currency=settings.DEFAULT_CURRENCY,
+        currency_symbol=settings.CURRENCY_SYMBOL,
+        model_version=settings.MODEL_VERSION,
+        algorithm="Gradient Boosting Classifier",
+        features=features,
+        cibil_score_guide=cibil_guide,
+        disclaimer=disclaimer,
+    )
