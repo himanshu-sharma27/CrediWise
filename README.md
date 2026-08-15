@@ -1,4 +1,4 @@
-# CrediWiseAI 🏦 🤖
+# CrediWise 🏦 🤖
 
 > **AI-Powered Smart Loan Decision Platform**  
 > *Explainable, INR-Native Credit Risk Assessment & Automated Underwriting*
