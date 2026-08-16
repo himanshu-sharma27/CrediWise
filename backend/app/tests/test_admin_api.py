@@ -95,3 +95,30 @@ def test_admin_monitoring_success(client: TestClient, admin_auth_headers):
     assert "training_metrics" in data
     assert "feature_importance" in data
     assert isinstance(data["recent_predictions"], list)
+
+
+def test_admin_monitoring_feature_importance_regression(client: TestClient, admin_auth_headers):
+    """Regression test: verify monitoring endpoint returns non-empty, descending numeric feature importances."""
+    res = client.get("/api/v1/admin/monitoring", headers=admin_auth_headers)
+    assert res.status_code == 200
+    data = res.json()
+    assert "feature_importance" in data
+    fi = data["feature_importance"]
+    assert isinstance(fi, dict)
+    assert len(fi) > 0, "Feature importance dictionary must not be empty"
+
+    # Verify keys are non-empty strings and values are non-negative numeric floats
+    for feature_name, importance_val in fi.items():
+        assert isinstance(feature_name, str)
+        assert len(feature_name) > 0
+        assert isinstance(importance_val, (int, float))
+        assert importance_val >= 0.0
+
+    # Verify descending ordering
+    values = list(fi.values())
+    for i in range(len(values) - 1):
+        assert values[i] >= values[i + 1], f"Values not descending: {values[i]} < {values[i+1]}"
+
+    # Verify prominent features from certified model artifact are present
+    assert "cibil_score" in fi
+

@@ -6,7 +6,6 @@ import {
   FilePlus,
   Sliders,
   Scale,
-  Cpu,
   LogOut,
   ChevronLeft,
   ChevronRight,
@@ -40,7 +39,6 @@ export const Sidebar: React.FC = () => {
     { name: "New Assessment", path: "/applications/new", icon: FilePlus },
     { name: "What-If Simulator", path: "/simulator", icon: Sliders },
     { name: "Rules & Policies", path: "/rules", icon: Scale },
-    { name: "Model Performance", path: "/admin/monitoring", icon: Cpu },
   ];
 
   const adminNavItems: NavItem[] = [

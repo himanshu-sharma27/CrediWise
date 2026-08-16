@@ -302,14 +302,32 @@ def get_model_monitoring(
     # Extract training metrics and feature importances
     training_metrics = bundle.get("metrics", {})
     raw_feature_importances = bundle.get("feature_importances", {})
-    # Format feature importances to clean float dict
+    # Format feature importances to clean float dict (supports both dict and list-of-tuples)
     feature_importance: Dict[str, float] = {}
+    parsed_items: List[tuple[str, float]] = []
+
     if isinstance(raw_feature_importances, dict):
-        for k, v in list(raw_feature_importances.items())[:10]:
+        for k, v in raw_feature_importances.items():
             try:
-                feature_importance[str(k)] = round(float(v), 4)
+                parsed_items.append((str(k), float(v)))
             except (ValueError, TypeError):
                 pass
+    elif isinstance(raw_feature_importances, (list, tuple)):
+        for item in raw_feature_importances:
+            try:
+                if isinstance(item, (list, tuple)) and len(item) == 2:
+                    parsed_items.append((str(item[0]), float(item[1])))
+                elif isinstance(item, dict) and "feature" in item and "importance" in item:
+                    parsed_items.append((str(item["feature"]), float(item["importance"])))
+            except (ValueError, TypeError):
+                pass
+
+    # Sort descending by importance score
+    parsed_items.sort(key=lambda x: x[1], reverse=True)
+
+    # Top 10 limit
+    for k, v in parsed_items[:10]:
+        feature_importance[k] = round(v, 4)
 
     return AdminMonitoringResponse(
         model_version=bundle.get("model_version", "loan-model-v2.0"),

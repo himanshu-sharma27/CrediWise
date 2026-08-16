@@ -5,6 +5,7 @@ import {
   Clock,
   TrendingUp,
   Gauge,
+  Info,
 } from "lucide-react";
 import Layout from "../components/Layout";
 import DecisionBadge from "../components/DecisionBadge";
@@ -12,6 +13,17 @@ import RiskBadge from "../components/RiskBadge";
 import api from "../services/api";
 import { AdminMonitoringResponse } from "../types/api";
 import { formatPercent, formatDate } from "../utils/formatters";
+
+const formatFeatureImportancePct = (weight?: number | null): string => {
+  if (weight === undefined || weight === null || isNaN(weight) || weight === 0) {
+    return "0.00%";
+  }
+  const pct = weight * 100;
+  if (pct > 0 && pct < 0.01) {
+    return "<0.01%";
+  }
+  return `${pct.toFixed(2)}%`;
+};
 
 export const Monitoring: React.FC = () => {
   const [data, setData] = useState<AdminMonitoringResponse | null>(null);
@@ -64,7 +76,7 @@ export const Monitoring: React.FC = () => {
               ML Model Monitoring
             </h1>
             <p className="text-sm text-slate-600">
-              Inference latency, drift telemetry, certified evaluation metrics, and feature importance rankings.
+              Inference latency, live prediction telemetry, certified evaluation metrics, and feature importance rankings.
             </p>
           </div>
 
@@ -129,7 +141,7 @@ export const Monitoring: React.FC = () => {
                   <div className="text-3xl font-extrabold text-coral-600">
                     {data.average_latency_ms} <span className="text-sm font-bold text-slate-400">ms</span>
                   </div>
-                  <p className="text-[11px] text-slate-500">Sub-millisecond inference</p>
+                  <p className="text-[11px] text-slate-500">Measured inference latency</p>
                 </div>
               </div>
             </div>
@@ -141,8 +153,8 @@ export const Monitoring: React.FC = () => {
                   <Gauge className="w-4 h-4" />
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-teal-900">Certified Test &amp; Benchmark Metrics</h2>
-                  <p className="text-xs text-slate-500">Stratified held-out test evaluation on validated Kaggle dataset</p>
+                  <h2 className="text-base font-bold text-teal-900">HELD-OUT BENCHMARK PERFORMANCE</h2>
+                  <p className="text-xs text-slate-500">Evaluated on a stratified held-out split of the validated Kaggle INR loan dataset</p>
                 </div>
               </div>
 
@@ -194,8 +206,16 @@ export const Monitoring: React.FC = () => {
                       ? Number(data.training_metrics.test_brier_score).toExponential(2)
                       : "0.00e+0"}
                   </p>
-                  <span className="text-[10px] text-slate-400">Calibration Loss</span>
+                  <span className="text-[10px] text-slate-400">Held-Out Probability Error</span>
                 </div>
+              </div>
+
+              {/* Dataset Limitation Note */}
+              <div className="p-3.5 rounded-xl bg-teal-50/70 border border-teal-100/80 flex items-start space-x-2.5 text-xs text-teal-900">
+                <Info className="w-4 h-4 text-teal-700 flex-shrink-0 mt-0.5" />
+                <p className="leading-relaxed">
+                  <span className="font-bold">Dataset limitation:</span> Near-perfect benchmark performance is driven largely by the strong CIBIL-based decision boundary present in the source dataset and should not be interpreted as real-world lending accuracy.
+                </p>
               </div>
             </div>
 
@@ -213,7 +233,7 @@ export const Monitoring: React.FC = () => {
 
               <div className="space-y-3">
                 {Object.entries(data.feature_importance).map(([feature, weight], idx) => {
-                  const pct = (weight * 100).toFixed(1);
+                  const pctDisplay = formatFeatureImportancePct(weight);
                   const label = featureLabels[feature] || feature;
                   return (
                     <div key={feature} className="space-y-1">
@@ -223,7 +243,7 @@ export const Monitoring: React.FC = () => {
                           <span className="font-bold text-teal-900">{label}</span>
                           <span className="font-mono text-[10px] text-slate-400">({feature})</span>
                         </div>
-                        <span className="font-extrabold text-teal-800">{pct}%</span>
+                        <span className="font-extrabold text-teal-800">{pctDisplay}</span>
                       </div>
                       <div className="w-full bg-cream-200 rounded-full h-2 overflow-hidden">
                         <div
@@ -234,6 +254,14 @@ export const Monitoring: React.FC = () => {
                     </div>
                   );
                 })}
+              </div>
+
+              {/* Feature Importance Interpretation */}
+              <div className="p-3.5 rounded-xl bg-teal-50/70 border border-teal-100/80 flex items-start space-x-2.5 text-xs text-teal-900">
+                <Info className="w-4 h-4 text-teal-700 flex-shrink-0 mt-0.5" />
+                <p className="leading-relaxed">
+                  <span className="font-bold">How to interpret:</span> Feature importance represents the relative contribution of features to the Gradient Boosting model's tree splits. Low individual importance does not mean a feature is unused; correlated financial variables may be represented through engineered ratios such as Asset-to-Loan Coverage.
+                </p>
               </div>
             </div>
 
