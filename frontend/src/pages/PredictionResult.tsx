@@ -10,7 +10,6 @@ import {
   CheckCircle2,
   AlertTriangle,
   Download,
-  Mail,
 } from "lucide-react";
 import Layout from "../components/Layout";
 import RiskBadge from "../components/RiskBadge";
@@ -29,8 +28,6 @@ export const PredictionResult: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
-  const [isEmailing, setIsEmailing] = useState<boolean>(false);
-  const [emailFeedback, setEmailFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const handleDownloadReport = async () => {
     if (!appId || isDownloading) return;
@@ -46,32 +43,9 @@ export const PredictionResult: React.FC = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (err: any) {
-      setEmailFeedback({
-        type: "error",
-        message: err.message || "Unable to download the assessment report.",
-      });
+      console.error("Failed to download assessment report:", err);
     } finally {
       setIsDownloading(false);
-    }
-  };
-
-  const handleEmailReport = async () => {
-    if (!appId || isEmailing) return;
-    try {
-      setIsEmailing(true);
-      setEmailFeedback(null);
-      await api.predictions.emailAssessmentReport(appId);
-      setEmailFeedback({
-        type: "success",
-        message: "Assessment results sent to your registered email address.",
-      });
-    } catch (err: any) {
-      setEmailFeedback({
-        type: "error",
-        message: "Unable to send the assessment email right now. Please try again later.",
-      });
-    } finally {
-      setIsEmailing(false);
     }
   };
 
@@ -330,35 +304,7 @@ export const PredictionResult: React.FC = () => {
                 <Download className="w-4 h-4" />
                 <span>{isDownloading ? "Downloading..." : "Download Assessment"}</span>
               </button>
-
-              <button
-                type="button"
-                onClick={handleEmailReport}
-                disabled={isEmailing}
-                className="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-white border border-cream-300 text-teal-900 text-xs font-bold hover:bg-cream-50 transition-colors shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                <Mail className="w-4 h-4 text-coral-500" />
-                <span>{isEmailing ? "Sending..." : "Email Assessment Results"}</span>
-              </button>
             </div>
-
-            {/* Email / Download Feedback Alert */}
-            {emailFeedback && (
-              <div
-                className={`text-xs font-medium px-3.5 py-2 rounded-lg flex items-center space-x-2 animate-fadeIn ${
-                  emailFeedback.type === "success"
-                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                    : "bg-red-50 text-red-800 border border-red-200"
-                }`}
-              >
-                {emailFeedback.type === "success" ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                ) : (
-                  <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
-                )}
-                <span>{emailFeedback.message}</span>
-              </div>
-            )}
           </div>
         </div>
 

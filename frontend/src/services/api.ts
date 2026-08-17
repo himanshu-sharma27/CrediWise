@@ -246,14 +246,6 @@ class ApiClient {
       return await response.blob();
     },
 
-    emailAssessmentReport: (appId: number): Promise<{ message: string; email: string }> =>
-      this.request<{ message: string; email: string }>(
-        `/predictions/applications/${appId}/assessment-report/email`,
-        {
-          method: "POST",
-        }
-      ),
-
     simulate: (payload: Record<string, any>): Promise<PredictionResult> =>
       this.request<PredictionResult>("/predictions/simulator", {
         method: "POST",

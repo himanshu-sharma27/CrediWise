@@ -1,18 +1,12 @@
-"""CrediWiseAI - Assessment Report PDF Generation & Email Service.
+"""CrediWiseAI - Assessment Report PDF Generation Service.
 
-Provides reusable PDF generation using ReportLab and secure email dispatch
-for loan assessment outcomes.
+Provides reusable PDF generation using ReportLab for loan assessment outcomes.
 """
 
 from __future__ import annotations
 
 import io
-import logging
-import smtplib
 from datetime import datetime, timezone
-from email.mime.application import MIMEApplication
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from typing import Any, Dict, List, Optional
 
 from reportlab.lib import colors
@@ -27,10 +21,6 @@ from reportlab.platypus import (
     Table,
     TableStyle,
 )
-
-from backend.app.core.config import settings
-
-logger = logging.getLogger("crediwise.reports")
 
 
 def _format_inr(val: Optional[float]) -> str:
@@ -427,59 +417,3 @@ def generate_assessment_pdf(
     pdf_bytes = buffer.getvalue()
     buffer.close()
     return pdf_bytes
-
-
-def send_assessment_email(
-    to_email: str,
-    application_number: str,
-    pdf_bytes: bytes,
-) -> None:
-    """Dispatches the generated assessment PDF to the authenticated user via SMTP.
-
-    Args:
-        to_email: Registered email address of the authenticated applicant.
-        application_number: Unique application reference number.
-        pdf_bytes: Generated PDF bytes to attach.
-
-    Raises:
-        RuntimeError: If SMTP is unconfigured or transmission fails.
-    """
-    if not settings.SMTP_HOST:
-        logger.warning("SMTP_HOST is not configured. Email cannot be dispatched.")
-        raise RuntimeError("SMTP configuration is missing.")
-
-    subject = f"CrediWise Assessment Results — {application_number}"
-    body_text = (
-        "Your CrediWise assessment has been completed. Your assessment report is attached to this email.\n\n"
-        "This report is an advisory assessment based on the validated dataset and deployed prediction model. "
-        "It is not a guaranteed bank sanction or loan disbursement decision.\n"
-    )
-
-    msg = MIMEMultipart()
-    msg["Subject"] = subject
-    from_header = f"{settings.SMTP_FROM_NAME} <{settings.SMTP_FROM_EMAIL}>" if settings.SMTP_FROM_NAME else settings.SMTP_FROM_EMAIL
-    msg["From"] = from_header
-    msg["To"] = to_email
-
-    msg.attach(MIMEText(body_text, "plain", "utf-8"))
-
-    attachment = MIMEApplication(pdf_bytes, _subtype="pdf")
-    attachment.add_header(
-        "Content-Disposition",
-        "attachment",
-        filename=f"CrediWise_Assessment_{application_number}.pdf",
-    )
-    msg.attach(attachment)
-
-    try:
-        server = smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT, timeout=10)
-        if settings.SMTP_USE_TLS:
-            server.starttls()
-        if settings.SMTP_USERNAME and settings.SMTP_PASSWORD:
-            server.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
-        server.sendmail(settings.SMTP_FROM_EMAIL, [to_email], msg.as_string())
-        server.quit()
-        logger.info("Assessment email sent successfully to %s", to_email)
-    except Exception as exc:
-        logger.error("Failed to send assessment email via SMTP: %s", type(exc).__name__)
-        raise RuntimeError("Unable to deliver assessment email via SMTP.") from None

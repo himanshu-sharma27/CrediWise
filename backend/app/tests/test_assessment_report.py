@@ -1,16 +1,16 @@
-"""CrediWiseAI - Assessment Report PDF & Email API Tests.
+"""CrediWiseAI - Assessment Report PDF API Tests.
 
-Validates PDF generation, authentication, RBAC ownership enforcement,
-and SMTP error handling for assessment reports.
+Validates PDF generation, authentication, and RBAC ownership enforcement
+for assessment reports.
 """
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 import pytest
 from fastapi.testclient import TestClient
 
-from backend.app.models.models import LoanApplication, User
+from backend.app.models.models import LoanApplication
 from backend.app.services.assessment_report import generate_assessment_pdf
 
 
@@ -114,70 +114,3 @@ def test_download_assessment_report_admin_allowed(
     assert report_resp.status_code == 200
     assert report_resp.headers["content-type"] == "application/pdf"
     assert report_resp.content.startswith(b"%PDF-")
-
-
-def test_email_assessment_report_unauthorized(client: TestClient, user_auth_headers, valid_application_payload):
-    """Unauthenticated email request is rejected."""
-    create_resp = client.post("/api/v1/applications", json=valid_application_payload, headers=user_auth_headers)
-    app_id = create_resp.json()["id"]
-
-    email_resp = client.post(f"/api/v1/predictions/applications/{app_id}/assessment-report/email")
-    assert email_resp.status_code == 401
-
-
-def test_email_assessment_report_forbidden_for_other_user(
-    client: TestClient, user_auth_headers, other_user_auth_headers, valid_application_payload
-):
-    """User B cannot dispatch User A's assessment email."""
-    create_resp = client.post("/api/v1/applications", json=valid_application_payload, headers=user_auth_headers)
-    app_id = create_resp.json()["id"]
-    client.post(f"/api/v1/predictions/applications/{app_id}", headers=user_auth_headers)
-
-    email_resp = client.post(
-        f"/api/v1/predictions/applications/{app_id}/assessment-report/email",
-        headers=other_user_auth_headers,
-    )
-    assert email_resp.status_code == 403
-
-
-def test_email_assessment_report_missing_smtp_returns_clean_error(
-    client: TestClient, user_auth_headers, valid_application_payload
-):
-    """When SMTP is unconfigured, returns clean user-friendly 503 error."""
-    create_resp = client.post("/api/v1/applications", json=valid_application_payload, headers=user_auth_headers)
-    app_id = create_resp.json()["id"]
-    client.post(f"/api/v1/predictions/applications/{app_id}", headers=user_auth_headers)
-
-    with patch("backend.app.services.assessment_report.settings.SMTP_HOST", None):
-        email_resp = client.post(
-            f"/api/v1/predictions/applications/{app_id}/assessment-report/email",
-            headers=user_auth_headers,
-        )
-        assert email_resp.status_code == 503
-        assert "Unable to send the assessment email right now" in email_resp.json()["detail"]
-
-
-def test_email_assessment_report_dispatches_to_auth_user_only(
-    client: TestClient, user_auth_headers, test_user: User, valid_application_payload
-):
-    """Email is sent strictly to the authenticated user's registered address."""
-    create_resp = client.post("/api/v1/applications", json=valid_application_payload, headers=user_auth_headers)
-    app_id = create_resp.json()["id"]
-    client.post(f"/api/v1/predictions/applications/{app_id}", headers=user_auth_headers)
-
-    with patch("backend.app.services.assessment_report.settings.SMTP_HOST", "smtp.example.com"), \
-         patch("backend.app.services.assessment_report.smtplib.SMTP") as mock_smtp_cls:
-        mock_smtp_inst = MagicMock()
-        mock_smtp_cls.return_value = mock_smtp_inst
-
-        email_resp = client.post(
-            f"/api/v1/predictions/applications/{app_id}/assessment-report/email",
-            headers=user_auth_headers,
-        )
-        assert email_resp.status_code == 200
-        data = email_resp.json()
-        assert data["email"] == test_user.email
-        assert mock_smtp_inst.sendmail.called
-        # Check recipient is test_user.email
-        args = mock_smtp_inst.sendmail.call_args[0]
-        assert test_user.email in args[1]

@@ -55,15 +55,6 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000",
     ]
 
-    # SMTP Email Configuration
-    SMTP_HOST: Optional[str] = None
-    SMTP_PORT: int = 587
-    SMTP_USERNAME: Optional[str] = None
-    SMTP_PASSWORD: Optional[str] = None
-    SMTP_FROM_EMAIL: str = "noreply@credwise.ai"
-    SMTP_FROM_NAME: str = "CrediWise"
-    SMTP_USE_TLS: bool = True
-
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
