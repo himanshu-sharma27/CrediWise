@@ -61,6 +61,31 @@ export interface AdminAnalyticsResponse {
   total_asset_volume: number;
 }
 
+export interface CandidateModelTestMetrics {
+  accuracy: number;
+  precision: number;
+  recall: number;
+  f1: number;
+  roc_auc: number;
+  brier_score_loss: number;
+  confusion_matrix?: number[][];
+  classification_report?: Record<string, any>;
+  fit_time_seconds?: number;
+}
+
+export interface CandidateModelCvMetrics {
+  accuracy_mean: number;
+  accuracy_std: number;
+  precision_mean: number;
+  precision_std: number;
+  recall_mean: number;
+  recall_std: number;
+  f1_mean: number;
+  f1_std: number;
+  roc_auc_mean: number;
+  roc_auc_std: number;
+}
+
 export interface AdminMonitoringResponse {
   model_version: string;
   algorithm: string;
@@ -80,6 +105,11 @@ export interface AdminMonitoringResponse {
     inference_latency_ms: number;
     created_at: string;
   }>;
+  all_models_test_metrics?: Record<string, CandidateModelTestMetrics>;
+  all_models_cv_metrics?: Record<string, CandidateModelCvMetrics>;
+  candidate_models?: string[];
+  champion_model?: string;
+  champion_version?: string;
 }
 
 export interface HealthCheckResponse {

@@ -6,6 +6,9 @@ import {
   TrendingUp,
   Gauge,
   Info,
+  Layers,
+  CheckCircle2,
+  ArrowRight,
 } from "lucide-react";
 import Layout from "../components/Layout";
 import DecisionBadge from "../components/DecisionBadge";
@@ -215,6 +218,204 @@ export const Monitoring: React.FC = () => {
                 <Info className="w-4 h-4 text-teal-700 flex-shrink-0 mt-0.5" />
                 <p className="leading-relaxed">
                   <span className="font-bold">Dataset limitation:</span> Near-perfect benchmark performance is driven largely by the strong CIBIL-based decision boundary present in the source dataset and should not be interpreted as real-world lending accuracy.
+                </p>
+              </div>
+            </div>
+
+            {/* Model Comparison & Selection */}
+            <div className="crediwise-card p-6 sm:p-8 space-y-6">
+              <div className="flex items-center justify-between pb-3 border-b border-cream-300">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-850 flex items-center justify-center">
+                    <Layers className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-base font-bold text-teal-900">Model Comparison &amp; Selection</h2>
+                    <p className="text-xs text-slate-500">
+                      Evaluation of candidate classifiers used to select the deployed prediction model.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="hidden sm:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-850 text-xs font-extrabold">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Champion: {data.champion_model || "Gradient Boosting"}</span>
+                </div>
+              </div>
+
+              {/* Model Selection Pipeline Flow */}
+              <div className="space-y-2">
+                <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block">
+                  Model Selection Pipeline
+                </span>
+                <div className="p-4 rounded-xl bg-cream-50/80 border border-cream-300 overflow-x-auto">
+                  <div className="flex items-center space-x-2 min-w-max text-xs">
+                    {[
+                      "Validated Dataset",
+                      "Same Preprocessing",
+                      "4 Candidate Models",
+                      "5-Fold Cross-Validation + Held-Out Test",
+                      "Champion Selection",
+                      "Gradient Boosting",
+                      "loan-model-v2.0",
+                      "Live Inference",
+                    ].map((step, sIdx, arr) => {
+                      const isChampionStep = step === "Gradient Boosting" || step === "loan-model-v2.0";
+                      return (
+                        <React.Fragment key={step}>
+                          <div
+                            className={`px-3 py-1.5 rounded-lg font-bold border text-[11px] ${
+                              isChampionStep
+                                ? "bg-teal-100 border-teal-300 text-teal-900 shadow-2xs"
+                                : sIdx === arr.length - 1
+                                ? "bg-emerald-100 border-emerald-300 text-emerald-900"
+                                : "bg-white border-cream-300 text-slate-700"
+                            }`}
+                          >
+                            <span className="text-slate-400 font-extrabold mr-1.5">{sIdx + 1}.</span>
+                            <span>{step}</span>
+                          </div>
+                          {sIdx < arr.length - 1 && (
+                            <ArrowRight className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Candidate Models Comparison Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="border-b border-cream-300 text-xs font-bold uppercase text-slate-400">
+                    <tr>
+                      <th className="pb-3 pr-4">Model</th>
+                      <th className="pb-3 px-3">Test Accuracy</th>
+                      <th className="pb-3 px-3">Test Precision</th>
+                      <th className="pb-3 px-3">Test Recall</th>
+                      <th className="pb-3 px-3">Test F1</th>
+                      <th className="pb-3 px-3">ROC-AUC</th>
+                      <th className="pb-3 px-3">Brier Score</th>
+                      <th className="pb-3 pl-3 text-right">Selection Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-cream-200 text-slate-700">
+                    {(
+                      data.candidate_models || [
+                        "Logistic Regression",
+                        "Decision Tree",
+                        "Random Forest",
+                        "Gradient Boosting",
+                      ]
+                    ).map((modelName) => {
+                      const metrics = data.all_models_test_metrics?.[modelName];
+                      const isChampion =
+                        modelName === "Gradient Boosting" || modelName === data.champion_model;
+
+                      return (
+                        <tr
+                          key={modelName}
+                          className={`transition-colors ${
+                            isChampion
+                              ? "bg-teal-50/70 hover:bg-teal-50 font-semibold"
+                              : "hover:bg-cream-50/60"
+                          }`}
+                        >
+                          <td className="py-3.5 pr-4">
+                            <div className="flex items-center space-x-2">
+                              <span className="font-bold text-teal-900">{modelName}</span>
+                              {isChampion && (
+                                <span className="px-1.5 py-0.5 rounded bg-teal-200 text-teal-900 text-[10px] font-extrabold">
+                                  v2.0
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-3.5 px-3 font-extrabold text-teal-900">
+                            {metrics ? formatPercent(metrics.accuracy) : "—"}
+                          </td>
+                          <td className="py-3.5 px-3">
+                            {metrics ? formatPercent(metrics.precision) : "—"}
+                          </td>
+                          <td className="py-3.5 px-3">
+                            {metrics ? formatPercent(metrics.recall) : "—"}
+                          </td>
+                          <td className="py-3.5 px-3 font-mono text-xs">
+                            {metrics ? metrics.f1.toFixed(4) : "—"}
+                          </td>
+                          <td className="py-3.5 px-3 font-mono text-xs">
+                            {metrics ? metrics.roc_auc.toFixed(4) : "—"}
+                          </td>
+                          <td className="py-3.5 px-3 font-mono text-xs">
+                            {metrics
+                              ? Number(metrics.brier_score_loss).toExponential(2)
+                              : "—"}
+                          </td>
+                          <td className="py-3.5 pl-3 text-right">
+                            {isChampion ? (
+                              <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-850 text-xs font-extrabold shadow-2xs">
+                                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                                <span>DEPLOYED CHAMPION</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">
+                                Candidate
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Explanations Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* How Champion Was Selected */}
+                <div className="p-4 rounded-xl bg-cream-50/70 border border-cream-300 space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle2 className="w-4 h-4 text-teal-750" />
+                    <h3 className="text-xs font-extrabold text-teal-900 uppercase tracking-wider">
+                      How the deployed model was selected
+                    </h3>
+                  </div>
+                  <ul className="text-xs text-slate-600 space-y-1.5 list-disc list-inside leading-relaxed">
+                    <li>
+                      Four candidate classifiers were evaluated using the same preprocessing pipeline and stratified data split.
+                    </li>
+                    <li>
+                      Five-fold stratified cross-validation and held-out test evaluation were used for comparison.
+                    </li>
+                    <li>
+                      Gradient Boosting was selected as the champion based on cross-validation performance and probability calibration.
+                    </li>
+                    <li>
+                      The deployed artifact is Gradient Boosting (<span className="font-mono font-semibold">{data.champion_version || "loan-model-v2.0"}</span>).
+                    </li>
+                  </ul>
+                </div>
+
+                {/* What Gradient Boosting Means */}
+                <div className="p-4 rounded-xl bg-cream-50/70 border border-cream-300 space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <Info className="w-4 h-4 text-coral-600" />
+                    <h3 className="text-xs font-extrabold text-teal-900 uppercase tracking-wider">
+                      What 'Gradient Boosting' means here
+                    </h3>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Gradient Boosting is an ensemble algorithm that builds multiple shallow decision trees sequentially, with each stage improving on the errors of previous stages. The deployed result is the prediction from this Gradient Boosting pipeline. It is <strong className="text-slate-800">NOT</strong> a voting or averaging combination of Logistic Regression, Decision Tree, Random Forest, and Gradient Boosting.
+                  </p>
+                </div>
+              </div>
+
+              {/* Comparison Interpretation Note */}
+              <div className="p-3.5 rounded-xl bg-teal-50/70 border border-teal-100/80 flex items-start space-x-2.5 text-xs text-teal-900">
+                <Info className="w-4 h-4 text-teal-700 flex-shrink-0 mt-0.5" />
+                <p className="leading-relaxed">
+                  <span className="font-bold">Interpretation:</span> The benchmark results reflect performance on the validated Kaggle INR dataset. They should not be interpreted as guaranteed real-world lending accuracy.
                 </p>
               </div>
             </div>

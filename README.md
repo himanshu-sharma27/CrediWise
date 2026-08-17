@@ -1,13 +1,13 @@
 # CrediWise 🏦 🤖
 
-> **AI-Powered Smart Loan Decision Platform**  
+> **Smart Loan Decision Platform**  
 > *Explainable, INR-Native Credit Risk Assessment & Automated Underwriting*
 
 ---
 
 ## 📌 Project Overview
 
-**CrediWiseAI** is an intelligent loan evaluation platform designed to bridge the gap between complex credit risk modeling and transparent, understandable decision-making for applicants and lenders.
+**CrediWise** is an intelligent loan evaluation platform designed to bridge the gap between complex credit risk modeling and transparent, understandable decision-making for applicants and lenders.
 
 Built around the **Kaggle INR-native Loan Approval Dataset**, the platform provides:
 - **Calibrated Approval Predictions:** Machine learning predictions powered by Gradient Boosting (`loan-model-v2.0`).

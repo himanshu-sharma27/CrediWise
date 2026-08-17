@@ -133,11 +133,11 @@ export const RulesPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Legal / AI Disclaimer */}
+            {/* Legal / Assessment Disclaimer */}
             <div className="p-6 sm:p-8 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-start space-x-4 text-amber-900">
               <AlertTriangle className="w-6 h-6 text-amber-700 flex-shrink-0 mt-1" />
               <div className="space-y-2 text-sm leading-relaxed">
-                <h3 className="font-bold text-base text-amber-950">Responsible AI Assessment Disclaimer</h3>
+                <h3 className="font-bold text-base text-amber-950">Responsible Assessment Disclaimer</h3>
                 <p>{rules.disclaimer}</p>
               </div>
             </div>
@@ -147,7 +147,7 @@ export const RulesPage: React.FC = () => {
               <div className="space-y-2">
                 <h3 className="text-2xl font-black">Ready to Check Your Eligibility?</h3>
                 <p className="text-sm text-teal-100/90 max-w-lg">
-                  Submit your 11 authenticated financial parameters to get an instant AI prediction with full factor explainability.
+                  Submit your 11 authenticated financial parameters to get an instant prediction with full factor explainability.
                 </p>
               </div>
               <a

@@ -121,24 +121,19 @@ export const LoginPage: React.FC = () => {
             <div className="mt-8 pt-6 border-t border-cream-300 space-y-3">
               <div className="flex items-center space-x-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
                 <UserCheck className="w-4 h-4 text-coral-500" />
-                <span>Quick-Fill Demo Accounts</span>
+                <span>Quick-Fill Demo Account</span>
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              <div>
                 <button
                   type="button"
                   onClick={() => handleQuickFill("applicant@credwise.ai", "Password@123")}
-                  className="px-3 py-2 text-left rounded-lg bg-teal-50 border border-teal-100 hover:bg-teal-100 text-teal-900 text-xs font-medium transition-colors"
+                  className="w-full px-4 py-2.5 text-left rounded-lg bg-teal-50 border border-teal-100 hover:bg-teal-100 text-teal-900 text-xs font-medium transition-colors flex items-center justify-between"
                 >
-                  <span className="font-bold block">Applicant Demo</span>
-                  <span className="text-[10px] text-teal-700 truncate block">applicant@credwise.ai</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickFill("admin@credwise.ai", "AdminPassword@123")}
-                  className="px-3 py-2 text-left rounded-lg bg-coral-50 border border-coral-100 hover:bg-coral-100 text-coral-900 text-xs font-medium transition-colors"
-                >
-                  <span className="font-bold block">Admin Demo</span>
-                  <span className="text-[10px] text-coral-700 truncate block">admin@credwise.ai</span>
+                  <div>
+                    <span className="font-bold block">Applicant Demo</span>
+                    <span className="text-[10px] text-teal-700 block">applicant@credwise.ai</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-teal-700 bg-teal-200/60 px-2 py-0.5 rounded">Click to Fill</span>
                 </button>
               </div>
             </div>

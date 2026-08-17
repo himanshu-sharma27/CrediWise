@@ -83,7 +83,7 @@ def test_admin_analytics_success(client: TestClient, admin_auth_headers):
 
 
 def test_admin_monitoring_success(client: TestClient, admin_auth_headers):
-    """Admin can retrieve model monitoring metadata and telemetry."""
+    """Admin can retrieve model monitoring metadata, candidate comparisons, and telemetry."""
     res = client.get("/api/v1/admin/monitoring", headers=admin_auth_headers)
     assert res.status_code == 200
     data = res.json()
@@ -95,6 +95,15 @@ def test_admin_monitoring_success(client: TestClient, admin_auth_headers):
     assert "training_metrics" in data
     assert "feature_importance" in data
     assert isinstance(data["recent_predictions"], list)
+    assert "all_models_test_metrics" in data
+    assert "all_models_cv_metrics" in data
+    assert "candidate_models" in data
+    assert data["champion_model"] == "Gradient Boosting"
+    assert data["champion_version"] == "loan-model-v2.0"
+    assert "Logistic Regression" in data["all_models_test_metrics"]
+    assert "Decision Tree" in data["all_models_test_metrics"]
+    assert "Random Forest" in data["all_models_test_metrics"]
+    assert "Gradient Boosting" in data["all_models_test_metrics"]
 
 
 def test_admin_monitoring_feature_importance_regression(client: TestClient, admin_auth_headers):

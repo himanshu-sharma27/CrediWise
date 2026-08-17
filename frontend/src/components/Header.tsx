@@ -27,7 +27,7 @@ export const Header: React.FC = () => {
               Credi<span className="text-coral-500">Wise</span>
             </span>
             <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mt-0.5">
-              AI LOAN INTELLIGENCE
+              LOAN INTELLIGENCE
             </span>
           </div>
         </Link>

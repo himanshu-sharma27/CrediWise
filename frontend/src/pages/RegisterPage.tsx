@@ -56,7 +56,7 @@ export const RegisterPage: React.FC = () => {
               Create Applicant Account
             </h1>
             <p className="text-sm text-slate-600">
-              Join CrediWise to assess loan eligibility with explainable AI
+              Join CrediWise to assess loan eligibility with an explainable model
             </p>
           </div>
 

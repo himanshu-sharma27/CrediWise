@@ -348,3 +348,8 @@ class AdminMonitoringResponse(BaseModel):
     training_metrics: Dict[str, Any]
     feature_importance: Dict[str, float]
     recent_predictions: List[Dict[str, Any]]
+    all_models_test_metrics: Optional[Dict[str, Dict[str, Any]]] = None
+    all_models_cv_metrics: Optional[Dict[str, Dict[str, Any]]] = None
+    candidate_models: Optional[List[str]] = None
+    champion_model: Optional[str] = None
+    champion_version: Optional[str] = None

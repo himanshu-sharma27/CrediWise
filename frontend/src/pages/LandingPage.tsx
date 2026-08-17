@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Sparkles,
   ArrowRight,
   CheckCircle2,
   HelpCircle,
@@ -50,12 +49,6 @@ export const LandingPage: React.FC = () => {
     <Layout variant="public" showFooterBanner={true}>
       {/* Hero Section */}
       <section className="pt-16 pb-20 sm:pt-24 sm:pb-28 px-4 sm:px-6 lg:px-8 text-center max-w-5xl mx-auto">
-        {/* Pill Badge */}
-        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-teal-100/80 border border-teal-200 text-teal-850 text-xs font-extrabold tracking-wider uppercase mb-8 shadow-xs">
-          <Sparkles className="w-3.5 h-3.5 text-coral-500" />
-          <span>AI-ASSISTED LOAN ASSESSMENT PLATFORM</span>
-        </div>
-
         {/* Hero Title */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-teal-900 tracking-tight leading-[1.1] mb-6">
           Smarter Loan Assessment,
@@ -64,7 +57,7 @@ export const LandingPage: React.FC = () => {
 
         {/* Hero Subtitle */}
         <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-10 font-normal">
-          <strong className="text-teal-900 font-bold">CrediWiseAI</strong> evaluates applicant financial information using an explainable Gradient Boosting machine-learning model, delivering real-time approval probabilities, risk scores, and clear factor attributions in native Indian Rupees (₹).
+          <strong className="text-teal-900 font-bold">CrediWise</strong> evaluates applicant financial information using an explainable Gradient Boosting machine-learning model, delivering real-time approval probabilities, risk scores, and clear factor attributions in native Indian Rupees (₹).
         </p>
 
         {/* Hero CTAs */}
@@ -124,7 +117,7 @@ export const LandingPage: React.FC = () => {
               2
             </div>
             <h3 className="text-xl font-bold text-teal-900 mb-3">
-              AI Assessment
+              Assessment
             </h3>
             <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
               The active loan prediction model processes your data against validated risk parameters.

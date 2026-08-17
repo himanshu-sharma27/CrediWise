@@ -225,6 +225,35 @@ class ApiClient {
         method: "GET",
       }),
 
+    downloadAssessmentReport: async (appId: number): Promise<Blob> => {
+      const url = `${API_BASE_URL}/predictions/applications/${appId}/assessment-report`;
+      const token = this.getToken();
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      const response = await fetch(url, { headers });
+      if (!response.ok) {
+        let errorMsg = `Failed to download assessment report (HTTP ${response.status})`;
+        try {
+          const errData = await response.json();
+          if (errData.detail) errorMsg = errData.detail;
+        } catch {
+          // ignore
+        }
+        throw new Error(errorMsg);
+      }
+      return await response.blob();
+    },
+
+    emailAssessmentReport: (appId: number): Promise<{ message: string; email: string }> =>
+      this.request<{ message: string; email: string }>(
+        `/predictions/applications/${appId}/assessment-report/email`,
+        {
+          method: "POST",
+        }
+      ),
+
     simulate: (payload: Record<string, any>): Promise<PredictionResult> =>
       this.request<PredictionResult>("/predictions/simulator", {
         method: "POST",

@@ -7,7 +7,7 @@ status updating, prediction history, and real-time What-If scenario simulation.
 from __future__ import annotations
 
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy.orm import Session, joinedload
 
 from backend.app.api.deps import get_current_user, require_user
@@ -22,6 +22,7 @@ from backend.app.schemas.schemas import (
     SimulatorRequestSchema,
     SimulatorResponseSchema,
 )
+from backend.app.services.assessment_report import generate_assessment_pdf, send_assessment_email
 from backend.app.services.ml_service import predict_loan_application
 from backend.app.services.risk_engine import assess_risk
 
@@ -244,6 +245,144 @@ def get_latest_application_prediction(
         explanations=explanations,
         created_at=pred.created_at,
     )
+
+
+@router.get(
+    "/applications/{app_id}/assessment-report",
+    summary="Download formal PDF assessment report for a loan application",
+)
+def download_application_assessment_report(
+    app_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> Response:
+    """Generates and returns an authoritative PDF assessment report.
+
+    Enforces ownership check: applicant can only download their own application.
+    """
+    app = db.query(LoanApplication).filter(LoanApplication.id == app_id).first()
+    if not app:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Loan application with ID {app_id} not found.",
+        )
+
+    if current_user.role != "admin" and app.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: you cannot download assessment for another user's application.",
+        )
+
+    pred = (
+        db.query(PredictionResult)
+        .options(joinedload(PredictionResult.explanations))
+        .filter(PredictionResult.application_id == app_id)
+        .order_by(PredictionResult.created_at.desc(), PredictionResult.id.desc())
+        .first()
+    )
+
+    if not pred:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No assessment prediction has been generated for this application yet.",
+        )
+
+    risk_assess = assess_risk(
+        {
+            "income_annum": app.income_annum,
+            "residential_assets_value": app.residential_assets_value,
+            "commercial_assets_value": app.commercial_assets_value,
+            "luxury_assets_value": app.luxury_assets_value,
+            "bank_asset_value": app.bank_asset_value,
+            "cibil_score": app.cibil_score,
+            "total_asset_value": pred.total_asset_value,
+            "estimated_payment_to_income_ratio": pred.estimated_payment_to_income_ratio,
+            "loan_to_annual_income_ratio": pred.loan_to_annual_income_ratio,
+            "asset_to_loan_ratio": pred.asset_to_loan_ratio,
+            "bank_asset_to_annual_income_ratio": pred.bank_asset_to_annual_income_ratio,
+        },
+        pred.approval_probability,
+    )
+
+    pdf_bytes = generate_assessment_pdf(app, pred, risk_assess)
+
+    filename = f"CrediWise_Assessment_{app.application_number}.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+@router.post(
+    "/applications/{app_id}/assessment-report/email",
+    summary="Email assessment report PDF to the registered applicant email",
+)
+def email_application_assessment_report(
+    app_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> dict:
+    """Generates the assessment PDF and dispatches it strictly to the authenticated user's email."""
+    app = db.query(LoanApplication).filter(LoanApplication.id == app_id).first()
+    if not app:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Loan application with ID {app_id} not found.",
+        )
+
+    if current_user.role != "admin" and app.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: you cannot dispatch assessment for another user's application.",
+        )
+
+    pred = (
+        db.query(PredictionResult)
+        .options(joinedload(PredictionResult.explanations))
+        .filter(PredictionResult.application_id == app_id)
+        .order_by(PredictionResult.created_at.desc(), PredictionResult.id.desc())
+        .first()
+    )
+
+    if not pred:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No assessment prediction has been generated for this application yet.",
+        )
+
+    risk_assess = assess_risk(
+        {
+            "income_annum": app.income_annum,
+            "residential_assets_value": app.residential_assets_value,
+            "commercial_assets_value": app.commercial_assets_value,
+            "luxury_assets_value": app.luxury_assets_value,
+            "bank_asset_value": app.bank_asset_value,
+            "cibil_score": app.cibil_score,
+            "total_asset_value": pred.total_asset_value,
+            "estimated_payment_to_income_ratio": pred.estimated_payment_to_income_ratio,
+            "loan_to_annual_income_ratio": pred.loan_to_annual_income_ratio,
+            "asset_to_loan_ratio": pred.asset_to_loan_ratio,
+            "bank_asset_to_annual_income_ratio": pred.bank_asset_to_annual_income_ratio,
+        },
+        pred.approval_probability,
+    )
+
+    pdf_bytes = generate_assessment_pdf(app, pred, risk_assess)
+
+    recipient_email = current_user.email
+    try:
+        send_assessment_email(recipient_email, app.application_number, pdf_bytes)
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Unable to send the assessment email right now. Please try again later.",
+        )
+
+    return {
+        "message": "Assessment results sent to your registered email address.",
+        "email": recipient_email,
+    }
 
 
 @router.get(

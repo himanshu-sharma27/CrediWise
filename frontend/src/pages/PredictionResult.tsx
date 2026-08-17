@@ -9,6 +9,8 @@ import {
   Sparkles,
   CheckCircle2,
   AlertTriangle,
+  Download,
+  Mail,
 } from "lucide-react";
 import Layout from "../components/Layout";
 import RiskBadge from "../components/RiskBadge";
@@ -26,6 +28,52 @@ export const PredictionResult: React.FC = () => {
   const [prediction, setPrediction] = useState<PredictionResultType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDownloading, setIsDownloading] = useState<boolean>(false);
+  const [isEmailing, setIsEmailing] = useState<boolean>(false);
+  const [emailFeedback, setEmailFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  const handleDownloadReport = async () => {
+    if (!appId || isDownloading) return;
+    try {
+      setIsDownloading(true);
+      const blob = await api.predictions.downloadAssessmentReport(appId);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `CrediWise_Assessment_${application?.application_number || appId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      setEmailFeedback({
+        type: "error",
+        message: err.message || "Unable to download the assessment report.",
+      });
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const handleEmailReport = async () => {
+    if (!appId || isEmailing) return;
+    try {
+      setIsEmailing(true);
+      setEmailFeedback(null);
+      await api.predictions.emailAssessmentReport(appId);
+      setEmailFeedback({
+        type: "success",
+        message: "Assessment results sent to your registered email address.",
+      });
+    } catch (err: any) {
+      setEmailFeedback({
+        type: "error",
+        message: "Unable to send the assessment email right now. Please try again later.",
+      });
+    } finally {
+      setIsEmailing(false);
+    }
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -269,6 +317,49 @@ export const PredictionResult: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Assessment Report Actions */}
+          <div className="mt-8 pt-6 border-t border-cream-300 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={handleDownloadReport}
+                disabled={isDownloading}
+                className="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-teal-850 text-white text-xs font-bold hover:bg-teal-800 transition-colors shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <Download className="w-4 h-4" />
+                <span>{isDownloading ? "Downloading..." : "Download Assessment"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleEmailReport}
+                disabled={isEmailing}
+                className="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-white border border-cream-300 text-teal-900 text-xs font-bold hover:bg-cream-50 transition-colors shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <Mail className="w-4 h-4 text-coral-500" />
+                <span>{isEmailing ? "Sending..." : "Email Assessment Results"}</span>
+              </button>
+            </div>
+
+            {/* Email / Download Feedback Alert */}
+            {emailFeedback && (
+              <div
+                className={`text-xs font-medium px-3.5 py-2 rounded-lg flex items-center space-x-2 animate-fadeIn ${
+                  emailFeedback.type === "success"
+                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                    : "bg-red-50 text-red-800 border border-red-200"
+                }`}
+              >
+                {emailFeedback.type === "success" ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                )}
+                <span>{emailFeedback.message}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Factor Attribution Breakdown */}
@@ -434,7 +525,7 @@ export const PredictionResult: React.FC = () => {
         <div className="p-6 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-start space-x-3 text-amber-900 text-xs sm:text-sm">
           <AlertCircle className="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            <strong>Responsible AI Assessment Notice:</strong> This prediction is generated using historical data patterns from the certified Kaggle INR dataset. It provides an advisory assessment for credit analysis and does not constitute a guaranteed bank sanction.
+            <strong>Responsible Assessment Notice:</strong> This prediction is generated using historical data patterns from the certified Kaggle INR dataset. It provides an advisory assessment for credit analysis and does not constitute a guaranteed bank sanction.
           </p>
         </div>
 

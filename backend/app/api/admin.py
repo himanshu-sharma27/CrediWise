@@ -1,4 +1,4 @@
-"""CrediWiseAI - Administrator, Analytics, and Model Monitoring Endpoints.
+"""CrediWise - Administrator, Analytics, and Model Monitoring Endpoints.
 
 Provides administrative dashboard KPIs, user directory management, portfolio analytics,
 and lightweight ML telemetry strictly protected by require_admin RBAC guards.
@@ -329,6 +329,15 @@ def get_model_monitoring(
     for k, v in parsed_items[:10]:
         feature_importance[k] = round(v, 4)
 
+    all_models_test_metrics = bundle.get("all_models_test_metrics", {})
+    all_models_cv_metrics = bundle.get("all_models_cv_metrics", {})
+    candidate_models = list(all_models_test_metrics.keys()) if all_models_test_metrics else [
+        "Logistic Regression",
+        "Decision Tree",
+        "Random Forest",
+        "Gradient Boosting",
+    ]
+
     return AdminMonitoringResponse(
         model_version=bundle.get("model_version", "loan-model-v2.0"),
         algorithm=bundle.get("model_name", "Gradient Boosting"),
@@ -340,4 +349,9 @@ def get_model_monitoring(
         training_metrics=training_metrics,
         feature_importance=feature_importance,
         recent_predictions=recent_preds,
+        all_models_test_metrics=all_models_test_metrics,
+        all_models_cv_metrics=all_models_cv_metrics,
+        candidate_models=candidate_models,
+        champion_model=bundle.get("model_name", "Gradient Boosting"),
+        champion_version=bundle.get("model_version", "loan-model-v2.0"),
     )

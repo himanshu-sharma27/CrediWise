@@ -1,4 +1,4 @@
-"""CrediWiseAI - FastAPI Application Entry Point.
+"""CrediWise - FastAPI Application Entry Point.
 
 Configures CORS, initializes database schema, loads the immutable Kaggle ML artifact,
 and mounts all API routers under /api/v1.

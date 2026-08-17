@@ -20,15 +20,15 @@ export const Footer: React.FC<FooterProps> = ({ showBanner = true }) => {
 
   return (
     <footer>
-      {/* Responsible AI Assessment Banner */}
+      {/* Responsible Assessment Banner */}
       {showBanner && (
         <section className="bg-teal-750 text-white py-16 px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-4xl mx-auto space-y-6">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-teal-200">
-              Responsible AI Assessment
+              Responsible Assessment
             </h2>
             <p className="text-base sm:text-lg text-teal-50/90 leading-relaxed font-normal max-w-3xl mx-auto">
-              CrediWise provides an AI-assisted prediction and explainability analysis. The result is an estimated probability based on historical data patterns and business rules. It does not constitute a guaranteed bank sanction or formal loan commitment.
+              CrediWise provides a prediction and explainability analysis. The result is an estimated probability based on historical data patterns and business rules. It does not constitute a guaranteed bank sanction or formal loan commitment.
             </p>
             <div className="pt-2">
               <button
@@ -45,7 +45,7 @@ export const Footer: React.FC<FooterProps> = ({ showBanner = true }) => {
       {/* Copyright & Quick Links */}
       <div className="bg-white border-t border-cream-300 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
-          <p>© 2026 CrediWise AI. All rights reserved.</p>
+          <p>© 2026 CrediWise. All rights reserved.</p>
           <div className="flex items-center space-x-6">
             <Link to="/rules" className="hover:text-teal-850 transition-colors">
               Rules &amp; Policies
