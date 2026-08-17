@@ -14,10 +14,10 @@ export const FactorCard: React.FC<FactorCardProps> = ({ factor }) => {
     <div
       className={`p-4 rounded-xl border transition-all ${
         isPositive
-          ? "bg-teal-50/50 border-teal-200/80 hover:border-teal-300"
+          ? "bg-[#EEF4EE]/60 border-[#A7C1A9] hover:border-[#4F6F52]"
           : isNegative
-          ? "bg-coral-50/50 border-coral-200/80 hover:border-coral-300"
-          : "bg-cream-50 border-cream-300"
+          ? "bg-[#F8EEEE]/70 border-[#E5B8B3] hover:border-[#A6534A]"
+          : "bg-[#F8F9FA] border-[#E2E5E9]"
       }`}
     >
       <div className="flex items-start justify-between gap-3">
@@ -25,10 +25,10 @@ export const FactorCard: React.FC<FactorCardProps> = ({ factor }) => {
           <div
             className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${
               isPositive
-                ? "bg-teal-100 text-teal-800"
+                ? "bg-[#EEF4EE] text-[#4F6F52]"
                 : isNegative
-                ? "bg-coral-100 text-coral-700"
-                : "bg-slate-100 text-slate-700"
+                ? "bg-[#F8EEEE] text-[#A6534A]"
+                : "bg-[#F3F4F6] text-[#4A5568]"
             }`}
           >
             {isPositive ? (
@@ -41,23 +41,23 @@ export const FactorCard: React.FC<FactorCardProps> = ({ factor }) => {
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#718096]">
                 Rank #{factor.rank}
               </span>
               <span
-                className={`text-[10px] font-extrabold uppercase px-1.5 py-0.2 rounded ${
+                className={`text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded ${
                   isPositive
-                    ? "bg-teal-100 text-teal-850"
+                    ? "bg-[#EEF4EE] text-[#315236]"
                     : isNegative
-                    ? "bg-coral-100 text-coral-800"
-                    : "bg-slate-100 text-slate-800"
+                    ? "bg-[#F8EEEE] text-[#7A332D]"
+                    : "bg-[#F3F4F6] text-[#4A5568]"
                 }`}
               >
                 {factor.impact}
               </span>
             </div>
-            <h4 className="font-bold text-teal-900 text-sm mt-0.5">{factor.display_name}</h4>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">{factor.explanation_text}</p>
+            <h4 className="font-bold text-[#1A2B4C] text-sm mt-0.5">{factor.display_name}</h4>
+            <p className="text-xs text-[#4A5568] mt-1 leading-relaxed">{factor.explanation_text}</p>
           </div>
         </div>
       </div>
@@ -66,3 +66,4 @@ export const FactorCard: React.FC<FactorCardProps> = ({ factor }) => {
 };
 
 export default FactorCard;
+

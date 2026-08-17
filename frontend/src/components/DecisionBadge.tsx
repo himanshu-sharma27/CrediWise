@@ -15,33 +15,33 @@ export const DecisionBadge: React.FC<DecisionBadgeProps> = ({
   const config = {
     APPROVED: {
       label: "Approved",
-      bg: "bg-teal-100/80 text-teal-900 border-teal-300",
+      bg: "bg-[#EEF4EE] text-[#315236] border-[#A7C1A9]",
       icon: CheckCircle2,
-      iconColor: "text-teal-700",
+      iconColor: "text-[#4F6F52]",
     },
     REJECTED: {
       label: "Rejected",
-      bg: "bg-coral-100/70 text-coral-900 border-coral-200",
+      bg: "bg-[#F8EEEE] text-[#7A332D] border-[#E5B8B3]",
       icon: XCircle,
-      iconColor: "text-coral-600",
+      iconColor: "text-[#A6534A]",
     },
     UNDER_REVIEW: {
       label: "Under Review",
-      bg: "bg-blue-50 text-blue-900 border-blue-200",
+      bg: "bg-[#F3F4F6] text-[#1A2B4C] border-[#CBD2DA]",
       icon: Clock,
-      iconColor: "text-blue-600",
+      iconColor: "text-[#4A5568]",
     },
     INFO_REQUESTED: {
       label: "Info Requested",
-      bg: "bg-amber-50 text-amber-900 border-amber-200",
+      bg: "bg-[#FBF4EC] text-[#79552F] border-[#E7CBB0]",
       icon: AlertCircle,
-      iconColor: "text-amber-600",
+      iconColor: "text-[#D4A373]",
     },
   }[normStatus] || {
     label: normStatus,
-    bg: "bg-slate-50 text-slate-800 border-slate-200",
+    bg: "bg-[#F3F4F6] text-[#4A5568] border-[#E2E5E9]",
     icon: Clock,
-    iconColor: "text-slate-600",
+    iconColor: "text-[#718096]",
   };
 
   const Icon = config.icon;
@@ -54,12 +54,13 @@ export const DecisionBadge: React.FC<DecisionBadgeProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center space-x-1.5 rounded-xl border ${config.bg} ${sizeClasses}`}
+      className={`inline-flex items-center space-x-1.5 rounded-lg border ${config.bg} ${sizeClasses}`}
     >
-      <Icon className="w-4 h-4 flex-shrink-0" />
+      <Icon className={`w-4 h-4 flex-shrink-0 ${config.iconColor}`} />
       <span>{config.label}</span>
     </span>
   );
 };
 
 export default DecisionBadge;
+

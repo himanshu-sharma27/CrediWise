@@ -68,14 +68,14 @@ export const ApplicationsList: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-100 border border-teal-200 text-teal-850 text-[11px] font-extrabold uppercase tracking-wider mb-1">
-              <Files className="w-3.5 h-3.5 text-coral-500" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FBF4EC] border border-[#E2E5E9] text-[#1A2B4C] text-[11px] font-extrabold uppercase tracking-wider mb-1">
+              <Files className="w-3.5 h-3.5 text-[#D4A373]" />
               <span>PORTFOLIO APPLICATION QUEUE</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-teal-900 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1A2B4C] tracking-tight">
               Application Queue
             </h1>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-[#4A5568]">
               Complete intake list of all loan applications submitted across the platform.
             </p>
           </div>
@@ -83,7 +83,7 @@ export const ApplicationsList: React.FC = () => {
           <button
             onClick={loadApplications}
             disabled={loading}
-            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-cream-300 bg-white text-slate-700 font-bold text-xs hover:bg-cream-50 transition-colors shadow-2xs"
+            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-[#E2E5E9] bg-white text-[#1A2B4C] font-bold text-xs hover:bg-[#F8F9FA] transition-colors shadow-2xs"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             <span>Refresh Queue</span>
@@ -91,7 +91,7 @@ export const ApplicationsList: React.FC = () => {
         </div>
 
         {error && (
-          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm">
+          <div className="p-4 rounded-xl bg-[#F8EEEE] border border-[#E5B8B3] text-[#7A332D] text-sm">
             {error}
           </div>
         )}
@@ -102,7 +102,7 @@ export const ApplicationsList: React.FC = () => {
             {/* Search Input */}
             <div className="relative flex-1 w-full">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-                <Search className="w-4 h-4 text-slate-400" />
+                <Search className="w-4 h-4 text-[#4A5568]" />
               </div>
               <input
                 type="text"
@@ -112,20 +112,20 @@ export const ApplicationsList: React.FC = () => {
                   setCurrentPage(1);
                 }}
                 placeholder="Search by applicant name or application number..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-300 bg-cream-50/50 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:bg-white"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E5E9] bg-white text-sm text-[#1A2B4C] focus:outline-none focus:border-[#D4A373]"
               />
             </div>
 
             {/* Status Filter */}
             <div className="flex items-center space-x-2 w-full sm:w-auto">
-              <Filter className="w-4 h-4 text-slate-400 flex-shrink-0" />
+              <Filter className="w-4 h-4 text-[#4A5568] flex-shrink-0" />
               <select
                 value={statusFilter}
                 onChange={(e) => {
                   setStatusFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="px-3 py-2.5 rounded-xl border border-cream-300 bg-cream-50/50 text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:bg-white"
+                className="px-3 py-2.5 rounded-xl border border-[#E2E5E9] bg-white text-xs font-bold text-[#1A2B4C] focus:outline-none focus:border-[#D4A373]"
               >
                 <option value="ALL">All Statuses ({applications.length})</option>
                 <option value="APPROVED">Approved</option>
@@ -137,17 +137,17 @@ export const ApplicationsList: React.FC = () => {
         </div>
 
         {/* Table Content */}
-        <div className="crediwise-card p-6 sm:p-8 space-y-6">
+        <div className="crediwise-card overflow-hidden">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <div className="w-10 h-10 rounded-full border-4 border-teal-850 border-t-transparent animate-spin mb-4" />
-              <p className="text-slate-600 text-sm font-medium">Loading Application Records...</p>
+              <div className="w-10 h-10 rounded-full border-4 border-[#1A2B4C] border-t-transparent animate-spin mb-4" />
+              <p className="text-[#4A5568] text-sm font-medium">Loading Application Records...</p>
             </div>
           ) : filteredApps.length === 0 ? (
-            <div className="p-12 text-center space-y-3 border-dashed border-2 border-cream-300 rounded-2xl bg-cream-50/40">
-              <FileText className="w-10 h-10 text-slate-400 mx-auto" />
-              <h3 className="text-base font-bold text-teal-900">No Applications Found</h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            <div className="p-12 text-center space-y-3">
+              <FileText className="w-10 h-10 text-[#4A5568] mx-auto" />
+              <h3 className="text-base font-bold text-[#1A2B4C]">No Applications Found</h3>
+              <p className="text-xs text-[#4A5568] max-w-sm mx-auto">
                 No application records match your current search or filter criteria.
               </p>
             </div>
@@ -155,57 +155,57 @@ export const ApplicationsList: React.FC = () => {
             <>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="border-b border-cream-300 text-xs font-bold uppercase text-slate-400">
+                  <thead className="bg-[#1A2B4C] text-white text-xs font-bold uppercase tracking-wider">
                     <tr>
-                      <th className="pb-3 pr-4">App ID</th>
-                      <th className="pb-3 px-4">Applicant</th>
-                      <th className="pb-3 px-4">Date</th>
-                      <th className="pb-3 px-4">Requested Loan</th>
-                      <th className="pb-3 px-4">CIBIL</th>
-                      <th className="pb-3 px-4">Status</th>
-                      <th className="pb-3 px-4">Odds</th>
-                      <th className="pb-3 pl-4 text-right">Action</th>
+                      <th className="py-3.5 px-6">App ID</th>
+                      <th className="py-3.5 px-6">Applicant</th>
+                      <th className="py-3.5 px-6">Date</th>
+                      <th className="py-3.5 px-6">Requested Loan</th>
+                      <th className="py-3.5 px-6">CIBIL</th>
+                      <th className="py-3.5 px-6">Status</th>
+                      <th className="py-3.5 px-6">Odds</th>
+                      <th className="py-3.5 px-6 text-right">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-cream-200 text-slate-700">
+                  <tbody className="divide-y divide-[#E2E5E9] text-[#1A2B4C]">
                     {paginatedApps.map((app) => {
                       const pred = app.latest_prediction;
                       return (
-                        <tr key={app.id} className="hover:bg-cream-50/60 transition-colors">
-                          <td className="py-4 pr-4 font-bold text-teal-900">
+                        <tr key={app.id} className="hover:bg-[#FBF4EC]/20 transition-colors">
+                          <td className="py-4 px-6 font-bold text-[#1A2B4C]">
                             {app.application_number}
                           </td>
-                          <td className="py-4 px-4 font-medium text-slate-900">
+                          <td className="py-4 px-6 font-medium text-[#1A2B4C]">
                             {app.applicant_name}
                           </td>
-                          <td className="py-4 px-4 text-xs text-slate-500">
+                          <td className="py-4 px-6 text-xs text-[#4A5568]">
                             {formatDate(app.created_at)}
                           </td>
-                          <td className="py-4 px-4 font-bold text-slate-900">
+                          <td className="py-4 px-6 font-bold text-[#1A2B4C]">
                             {formatINR(app.loan_amount)}
-                            <span className="text-[10px] text-slate-400 block font-normal">
+                            <span className="text-[10px] text-[#4A5568] block font-normal">
                               {app.loan_term} Yrs • {formatINR(app.income_annum)} Income
                             </span>
                           </td>
-                          <td className="py-4 px-4 font-bold text-slate-800">
+                          <td className="py-4 px-6 font-bold text-[#1A2B4C]">
                             {app.cibil_score}
                           </td>
-                          <td className="py-4 px-4">
+                          <td className="py-4 px-6">
                             <DecisionBadge status={pred?.recommendation || app.status} size="sm" />
                           </td>
-                          <td className="py-4 px-4">
+                          <td className="py-4 px-6">
                             {pred ? (
-                              <span className="text-xs font-extrabold text-teal-900">
+                              <span className="text-xs font-extrabold text-[#1A2B4C]">
                                 {formatPercent(pred.approval_probability)}
                               </span>
                             ) : (
-                              <span className="text-xs text-slate-400">—</span>
+                              <span className="text-xs text-[#4A5568]">—</span>
                             )}
                           </td>
-                          <td className="py-4 pl-4 text-right">
+                          <td className="py-4 px-6 text-right">
                             <Link
                               to={`/applications/${app.id}/result`}
-                              className="inline-flex items-center space-x-1 text-xs font-bold text-teal-850 hover:text-coral-600 transition-colors"
+                              className="inline-flex items-center space-x-1 text-xs font-bold text-[#D4A373] hover:text-[#1A2B4C] transition-colors"
                             >
                               <span>Inspect</span>
                               <ArrowRight className="w-3.5 h-3.5" />
@@ -220,8 +220,8 @@ export const ApplicationsList: React.FC = () => {
 
               {/* Pagination Controls */}
               {totalPages > 1 && (
-                <div className="flex items-center justify-between pt-4 border-t border-cream-300 text-xs">
-                  <span className="text-slate-500 font-medium">
+                <div className="flex items-center justify-between p-6 border-t border-[#E2E5E9] text-xs">
+                  <span className="text-[#4A5568] font-medium">
                     Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
                     {Math.min(currentPage * itemsPerPage, filteredApps.length)} of {filteredApps.length} entries
                   </span>
@@ -230,17 +230,17 @@ export const ApplicationsList: React.FC = () => {
                     <button
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="p-2 rounded-lg border border-cream-300 bg-white text-slate-700 hover:bg-cream-50 disabled:opacity-40 transition-colors"
+                      className="p-2 rounded-lg border border-[#E2E5E9] bg-white text-[#1A2B4C] hover:bg-[#F8F9FA] disabled:opacity-40 transition-colors"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
-                    <span className="px-3 py-1 font-bold text-teal-900">
+                    <span className="px-3 py-1 font-bold text-[#1A2B4C]">
                       Page {currentPage} of {totalPages}
                     </span>
                     <button
                       onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
-                      className="p-2 rounded-lg border border-cream-300 bg-white text-slate-700 hover:bg-cream-50 disabled:opacity-40 transition-colors"
+                      className="p-2 rounded-lg border border-[#E2E5E9] bg-white text-[#1A2B4C] hover:bg-[#F8F9FA] disabled:opacity-40 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -256,3 +256,4 @@ export const ApplicationsList: React.FC = () => {
 };
 
 export default ApplicationsList;
+

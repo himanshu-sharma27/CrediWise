@@ -69,7 +69,7 @@ export const getCibilTier = (score?: number | null): CibilTier => {
     return {
       tier: "Subprime",
       label: "Awaiting Assessment",
-      badgeClass: "text-slate-600 bg-slate-100 border-slate-200",
+      badgeClass: "text-[#4A5568] bg-[#F8F9FA] border-[#E2E5E9]",
       description: "No score recorded",
     };
   }
@@ -77,7 +77,7 @@ export const getCibilTier = (score?: number | null): CibilTier => {
     return {
       tier: "Prime",
       label: "Prime Tier (Exceptional)",
-      badgeClass: "text-emerald-700 bg-emerald-50 border-emerald-200",
+      badgeClass: "text-[#1A2B4C] bg-[#FBF4EC] border-[#D4A373]",
       description: "Prime credit: low historical default risk (750–900)",
     };
   }
@@ -85,7 +85,7 @@ export const getCibilTier = (score?: number | null): CibilTier => {
     return {
       tier: "Good",
       label: "Good Tier (Low Risk)",
-      badgeClass: "text-teal-750 bg-teal-50 border-teal-200",
+      badgeClass: "text-[#1A2B4C] bg-[#FBF4EC] border-[#E2E5E9]",
       description: "Good credit: standard institutional lending (700–749)",
     };
   }
@@ -93,14 +93,15 @@ export const getCibilTier = (score?: number | null): CibilTier => {
     return {
       tier: "Fair",
       label: "Fair Tier (Moderate Risk)",
-      badgeClass: "text-amber-700 bg-amber-50 border-amber-200",
+      badgeClass: "text-[#79552F] bg-[#FBF4EC] border-[#D4A373]",
       description: "Fair credit: moderate default risk (650–699)",
     };
   }
   return {
     tier: "Subprime",
     label: "Sub-Prime (High Risk)",
-    badgeClass: "text-rose-700 bg-rose-50 border-rose-200",
+    badgeClass: "text-[#7A332D] bg-[#F8EEEE] border-[#E5B8B3]",
     description: "Sub-prime credit: elevated default risk (300–649)",
   };
 };
+

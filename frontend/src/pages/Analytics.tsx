@@ -4,7 +4,7 @@ import {
   RefreshCw,
   Banknote,
   Briefcase,
-  ShieldCheck,
+  Award,
   PieChart,
 } from "lucide-react";
 import Layout from "../components/Layout";
@@ -44,12 +44,12 @@ export const Analytics: React.FC = () => {
     return (
       <div className="space-y-1.5" key={label}>
         <div className="flex justify-between text-xs font-bold">
-          <span className="text-slate-700">{label}</span>
-          <span className="text-teal-900 font-extrabold">
+          <span className="text-[#1A2B4C]">{label}</span>
+          <span className="text-[#1A2B4C] font-extrabold">
             {count} ({percentage.toFixed(1)}%)
           </span>
         </div>
-        <div className="w-full bg-cream-200 rounded-full h-2.5 overflow-hidden">
+        <div className="w-full bg-[#E2E5E9] rounded-full h-2.5 overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-700 ${colorClass}`}
             style={{ width: `${percentage}%` }}
@@ -65,14 +65,14 @@ export const Analytics: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-100 border border-teal-200 text-teal-850 text-[11px] font-extrabold uppercase tracking-wider mb-1">
-              <BarChart3 className="w-3.5 h-3.5 text-coral-500" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FBF4EC] border border-[#E2E5E9] text-[#1A2B4C] text-[11px] font-extrabold uppercase tracking-wider mb-1">
+              <BarChart3 className="w-3.5 h-3.5 text-[#D4A373]" />
               <span>PORTFOLIO INTELLIGENCE &amp; ANALYTICS</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-teal-900 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1A2B4C] tracking-tight">
               Portfolio Risk Analytics
             </h1>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-[#4A5568]">
               Aggregated distribution patterns, credit tiers, and collateral coverage across submitted loans.
             </p>
           </div>
@@ -80,7 +80,7 @@ export const Analytics: React.FC = () => {
           <button
             onClick={loadAnalytics}
             disabled={loading}
-            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-cream-300 bg-white text-slate-700 font-bold text-xs hover:bg-cream-50 transition-colors shadow-2xs"
+            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-[#E2E5E9] bg-white text-[#1A2B4C] font-bold text-xs hover:bg-[#F8F9FA] transition-colors shadow-2xs"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             <span>Refresh Analytics</span>
@@ -88,58 +88,58 @@ export const Analytics: React.FC = () => {
         </div>
 
         {error && (
-          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm">
+          <div className="p-4 rounded-xl bg-[#F8EEEE] border border-[#E5B8B3] text-[#7A332D] text-sm">
             {error}
           </div>
         )}
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-10 h-10 rounded-full border-4 border-teal-850 border-t-transparent animate-spin mb-4" />
-            <p className="text-slate-600 text-sm font-medium">Aggregating Risk Distributions...</p>
+            <div className="w-10 h-10 rounded-full border-4 border-[#1A2B4C] border-t-transparent animate-spin mb-4" />
+            <p className="text-[#4A5568] text-sm font-medium">Aggregating Risk Distributions...</p>
           </div>
         ) : analytics ? (
           <>
             {/* Top KPI Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               <div className="crediwise-card p-5 space-y-1">
-                <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">
+                <span className="text-xs font-extrabold text-[#4A5568] uppercase tracking-wider block">
                   Total Intake Volume
                 </span>
-                <span className="text-3xl font-extrabold text-teal-900">
+                <span className="text-3xl font-extrabold text-[#1A2B4C]">
                   {formatLakhsCrores(analytics.total_loan_volume)}
                 </span>
-                <p className="text-[11px] text-slate-500">Across {analytics.total_applications} applications</p>
+                <p className="text-[11px] text-[#4A5568]">Across {analytics.total_applications} applications</p>
               </div>
 
               <div className="crediwise-card p-5 space-y-1">
-                <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">
+                <span className="text-xs font-extrabold text-[#4A5568] uppercase tracking-wider block">
                   Collateral Backing
                 </span>
-                <span className="text-3xl font-extrabold text-teal-800">
+                <span className="text-3xl font-extrabold text-[#1A2B4C]">
                   {formatLakhsCrores(analytics.total_asset_volume)}
                 </span>
-                <p className="text-[11px] text-slate-500">Total pledgeable assets</p>
+                <p className="text-[11px] text-[#4A5568]">Total pledgeable assets</p>
               </div>
 
               <div className="crediwise-card p-5 space-y-1">
-                <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">
+                <span className="text-xs font-extrabold text-[#4A5568] uppercase tracking-wider block">
                   Approval Rate
                 </span>
-                <span className="text-3xl font-extrabold text-teal-700">
+                <span className="text-3xl font-extrabold text-[#D4A373]">
                   {analytics.approval_rate}%
                 </span>
-                <p className="text-[11px] text-slate-500">{analytics.approved_count} approvals recorded</p>
+                <p className="text-[11px] text-[#4A5568]">{analytics.approved_count} approvals recorded</p>
               </div>
 
               <div className="crediwise-card p-5 space-y-1">
-                <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider block">
+                <span className="text-xs font-extrabold text-[#4A5568] uppercase tracking-wider block">
                   Rejection Rate
                 </span>
-                <span className="text-3xl font-extrabold text-coral-600">
+                <span className="text-3xl font-extrabold text-[#A6534A]">
                   {analytics.rejection_rate}%
                 </span>
-                <p className="text-[11px] text-slate-500">{analytics.rejected_count} high risk rejections</p>
+                <p className="text-[11px] text-[#4A5568]">{analytics.rejected_count} high risk rejections</p>
               </div>
             </div>
 
@@ -147,13 +147,13 @@ export const Analytics: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* CIBIL Score Distribution */}
               <div className="crediwise-card p-6 sm:p-8 space-y-6">
-                <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-                  <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-850 flex items-center justify-center">
-                    <ShieldCheck className="w-4 h-4" />
+                <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+                  <div className="w-8 h-8 rounded-lg bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                    <Award className="w-4 h-4 text-[#D4A373]" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-teal-900">CIBIL Score Bands</h2>
-                    <p className="text-xs text-slate-500">Credit bureau score stratification</p>
+                    <h2 className="text-base font-bold text-[#1A2B4C]">CIBIL Score Bands</h2>
+                    <p className="text-xs text-[#4A5568]">Credit bureau score stratification</p>
                   </div>
                 </div>
 
@@ -161,12 +161,12 @@ export const Analytics: React.FC = () => {
                   {Object.entries(analytics.cibil_bands).map(([band, count]) => {
                     const color =
                       band.includes("Prime")
-                        ? "bg-emerald-600"
+                        ? "bg-[#D4A373]"
                         : band.includes("Good")
-                        ? "bg-teal-600"
+                        ? "bg-[#1A2B4C]"
                         : band.includes("Fair")
-                        ? "bg-amber-500"
-                        : "bg-rose-600";
+                        ? "bg-[#D4A373]"
+                        : "bg-[#A6534A]";
                     return renderDistributionBar(
                       band,
                       count,
@@ -179,13 +179,13 @@ export const Analytics: React.FC = () => {
 
               {/* Loan Amount Distribution */}
               <div className="crediwise-card p-6 sm:p-8 space-y-6">
-                <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-                  <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-850 flex items-center justify-center">
-                    <Banknote className="w-4 h-4" />
+                <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+                  <div className="w-8 h-8 rounded-lg bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                    <Banknote className="w-4 h-4 text-[#D4A373]" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-teal-900">Loan Principal Tiers</h2>
-                    <p className="text-xs text-slate-500">Requested amount brackets (INR)</p>
+                    <h2 className="text-base font-bold text-[#1A2B4C]">Loan Principal Tiers</h2>
+                    <p className="text-xs text-[#4A5568]">Requested amount brackets (INR)</p>
                   </div>
                 </div>
 
@@ -195,7 +195,7 @@ export const Analytics: React.FC = () => {
                       tier,
                       count,
                       analytics.total_applications,
-                      "bg-teal-750"
+                      "bg-[#D4A373]"
                     )
                   )}
                 </div>
@@ -203,13 +203,13 @@ export const Analytics: React.FC = () => {
 
               {/* Risk Classification Distribution */}
               <div className="crediwise-card p-6 sm:p-8 space-y-6">
-                <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-                  <div className="w-8 h-8 rounded-lg bg-coral-100 text-coral-700 flex items-center justify-center">
-                    <PieChart className="w-4 h-4" />
+                <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+                  <div className="w-8 h-8 rounded-lg bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                    <PieChart className="w-4 h-4 text-[#D4A373]" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-teal-900">Underwriting Risk Tiers</h2>
-                    <p className="text-xs text-slate-500">Model-calibrated risk level breakdown</p>
+                    <h2 className="text-base font-bold text-[#1A2B4C]">Underwriting Risk Tiers</h2>
+                    <p className="text-xs text-[#4A5568]">Model-calibrated risk level breakdown</p>
                   </div>
                 </div>
 
@@ -218,53 +218,53 @@ export const Analytics: React.FC = () => {
                     "Low Risk",
                     analytics.risk_distribution.LOW || 0,
                     analytics.total_applications,
-                    "bg-emerald-600"
+                    "bg-[#D4A373]"
                   )}
                   {renderDistributionBar(
                     "Moderate Risk",
                     analytics.risk_distribution.MEDIUM || 0,
                     analytics.total_applications,
-                    "bg-amber-500"
+                    "bg-[#D4A373]"
                   )}
                   {renderDistributionBar(
                     "High Risk",
                     analytics.risk_distribution.HIGH || 0,
                     analytics.total_applications,
-                    "bg-rose-600"
+                    "bg-[#A6534A]"
                   )}
                 </div>
               </div>
 
               {/* Demographics: Education & Employment */}
               <div className="crediwise-card p-6 sm:p-8 space-y-6">
-                <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-                  <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-850 flex items-center justify-center">
-                    <Briefcase className="w-4 h-4" />
+                <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+                  <div className="w-8 h-8 rounded-lg bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                    <Briefcase className="w-4 h-4 text-[#D4A373]" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-teal-900">Applicant Demographics</h2>
-                    <p className="text-xs text-slate-500">Education and employment splits</p>
+                    <h2 className="text-base font-bold text-[#1A2B4C]">Applicant Demographics</h2>
+                    <p className="text-xs text-[#4A5568]">Education and employment splits</p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <span className="text-[11px] font-bold uppercase text-slate-400 block">Education</span>
+                  <span className="text-[11px] font-bold uppercase text-[#4A5568] block">Education</span>
                   {Object.entries(analytics.education_distribution).map(([ed, count]) =>
                     renderDistributionBar(
                       ed,
                       count,
                       analytics.total_applications,
-                      "bg-teal-800"
+                      "bg-[#1A2B4C]"
                     )
                   )}
 
-                  <span className="text-[11px] font-bold uppercase text-slate-400 block pt-2">Employment</span>
+                  <span className="text-[11px] font-bold uppercase text-[#4A5568] block pt-2">Employment</span>
                   {Object.entries(analytics.employment_distribution).map(([emp, count]) =>
                     renderDistributionBar(
                       emp,
                       count,
                       analytics.total_applications,
-                      "bg-coral-600"
+                      "bg-[#D4A373]"
                     )
                   )}
                 </div>
@@ -278,3 +278,4 @@ export const Analytics: React.FC = () => {
 };
 
 export default Analytics;
+

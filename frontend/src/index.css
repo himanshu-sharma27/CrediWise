@@ -2,11 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #1A2B4C;
+  --color-secondary: #4A5568;
+  --color-background: #F8F9FA;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #1A2B4C;
+  --color-text-secondary: #4A5568;
+  --color-muted: #718096;
+  --color-accent: #D4A373;
+  --color-border: #E2E5E9;
+  --color-border-strong: #CBD2DA;
+  --color-danger: #A6534A;
+  --color-approved: #4F6F52;
+  --color-navy-hover: #243A61;
+  --color-ochre-hover: #C48F5E;
+}
+
 @layer base {
   body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #FAF8F5;
-    color: #173740;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #F8F9FA;
+    color: #1A2B4C;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -14,9 +31,14 @@
 /* Custom card and button styles */
 .crediwise-card {
   background-color: #FFFFFF;
-  border: 1px solid #EBE6DC;
-  border-radius: 18px;
-  box-shadow: 0 2px 8px -2px rgba(19, 46, 53, 0.04), 0 4px 16px -4px rgba(19, 46, 53, 0.02);
+  border: 1px solid #E2E5E9;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(26, 43, 76, 0.05), 0 1px 2px -1px rgba(26, 43, 76, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.crediwise-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(26, 43, 76, 0.08), 0 2px 4px -2px rgba(26, 43, 76, 0.08);
 }
 
 .crediwise-pill {
@@ -27,6 +49,12 @@
   text-transform: uppercase;
 }
 
+/* Form input focus styles */
+input:focus, select:focus, textarea:focus {
+  border-color: #D4A373 !important;
+  box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.20) !important;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
@@ -34,14 +62,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #FAF8F5;
+  background: #F8F9FA;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D5CEBE;
+  background: #CBD2DA;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #B8B09F;
+  background: #718096;
 }
+
+

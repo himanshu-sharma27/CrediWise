@@ -1,5 +1,5 @@
 import React from "react";
-import { ShieldAlert, ShieldCheck, Shield } from "lucide-react";
+import { AlertTriangle, CheckCircle2, AlertOctagon, Info } from "lucide-react";
 
 interface RiskBadgeProps {
   level: "LOW" | "MEDIUM" | "HIGH" | string;
@@ -17,27 +17,27 @@ export const RiskBadge: React.FC<RiskBadgeProps> = ({
   const config = {
     LOW: {
       label: "Low Risk",
-      bg: "bg-emerald-50 text-emerald-800 border-emerald-200",
-      icon: ShieldCheck,
-      iconColor: "text-emerald-600",
+      bg: "bg-[#EEF4EE] text-[#315236] border-[#A7C1A9]",
+      icon: CheckCircle2,
+      iconColor: "text-[#4F6F52]",
     },
     MEDIUM: {
       label: "Moderate Risk",
-      bg: "bg-amber-50 text-amber-800 border-amber-200",
-      icon: Shield,
-      iconColor: "text-amber-600",
+      bg: "bg-[#FBF4EC] text-[#79552F] border-[#E7CBB0]",
+      icon: AlertTriangle,
+      iconColor: "text-[#D4A373]",
     },
     HIGH: {
       label: "High Risk",
-      bg: "bg-rose-50 text-rose-800 border-rose-200",
-      icon: ShieldAlert,
-      iconColor: "text-rose-600",
+      bg: "bg-[#F8EEEE] text-[#7A332D] border-[#E5B8B3]",
+      icon: AlertOctagon,
+      iconColor: "text-[#A6534A]",
     },
   }[normLevel] || {
     label: normLevel,
-    bg: "bg-slate-50 text-slate-800 border-slate-200",
-    icon: Shield,
-    iconColor: "text-slate-600",
+    bg: "bg-[#F3F4F6] text-[#4A5568] border-[#E2E5E9]",
+    icon: Info,
+    iconColor: "text-[#4A5568]",
   };
 
   const Icon = config.icon;
@@ -59,3 +59,4 @@ export const RiskBadge: React.FC<RiskBadgeProps> = ({
 };
 
 export default RiskBadge;
+

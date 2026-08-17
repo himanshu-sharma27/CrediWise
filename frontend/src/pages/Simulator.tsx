@@ -117,7 +117,7 @@ export const Simulator: React.FC = () => {
         <div className="space-y-3">
           <Link
             to="/dashboard"
-            className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-500 hover:text-teal-850 transition-colors"
+            className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#4A5568] hover:text-[#1A2B4C] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Workspace Dashboard</span>
@@ -125,21 +125,21 @@ export const Simulator: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-100 border border-teal-200 text-teal-850 text-[11px] font-extrabold uppercase tracking-wider mb-2">
-                <Sliders className="w-3.5 h-3.5 text-coral-500" />
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FBF4EC] border border-[#E2E5E9] text-[#1A2B4C] text-[11px] font-extrabold uppercase tracking-wider mb-2">
+                <Sliders className="w-3.5 h-3.5 text-[#D4A373]" />
                 <span>INTERACTIVE WHAT-IF SCENARIO SANDBOX</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-teal-900 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1A2B4C] tracking-tight">
                 What-If Loan Simulator
               </h1>
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-[#4A5568]">
                 Adjust financial parameters to explore sensitivity against the certified Gradient Boosting ML model in real-time.
               </p>
             </div>
 
             <button
               onClick={handleReset}
-              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl border border-cream-300 bg-white text-slate-700 text-xs font-bold hover:bg-cream-50 transition-colors shadow-2xs"
+              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl border border-[#E2E5E9] bg-white text-[#1A2B4C] text-xs font-bold hover:bg-[#F8F9FA] transition-colors shadow-2xs"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Reset to Defaults</span>
@@ -148,7 +148,7 @@ export const Simulator: React.FC = () => {
         </div>
 
         {error && (
-          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm">
+          <div className="p-4 rounded-xl bg-[#F8EEEE] border border-[#E5B8B3] text-[#7A332D] text-sm">
             {error}
           </div>
         )}
@@ -157,17 +157,17 @@ export const Simulator: React.FC = () => {
           {/* Left Column: Interactive Controls */}
           <div className="lg:col-span-6 space-y-6">
             <div className="crediwise-card p-6 sm:p-8 space-y-6">
-              <h2 className="text-lg font-bold text-teal-900 pb-3 border-b border-cream-300">
+              <h2 className="text-lg font-bold text-[#1A2B4C] pb-3 border-b border-[#E2E5E9]">
                 Adjust Financial Parameters
               </h2>
 
               {/* CIBIL Score Slider */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  <label className="text-xs font-bold text-[#1A2B4C] uppercase tracking-wider">
                     CIBIL Score
                   </label>
-                  <span className="text-base font-extrabold text-teal-900 bg-teal-50 px-2.5 py-0.5 rounded-md border border-teal-200">
+                  <span className="text-base font-extrabold text-[#1A2B4C] bg-[#FBF4EC] px-2.5 py-0.5 rounded-md border border-[#E2E5E9]">
                     {params.cibil_score}
                   </span>
                 </div>
@@ -178,23 +178,23 @@ export const Simulator: React.FC = () => {
                   step={5}
                   value={params.cibil_score}
                   onChange={(e) => setParams({ ...params, cibil_score: parseInt(e.target.value) || 300 })}
-                  className="w-full h-2.5 bg-cream-300 rounded-lg appearance-none cursor-pointer accent-teal-750"
+                  className="w-full h-2.5 bg-[#E2E5E9] rounded-lg appearance-none cursor-pointer accent-[#D4A373]"
                 />
-                <div className="flex justify-between text-[10px] font-bold text-slate-400">
-                  <span className="text-rose-600">300 (Subprime)</span>
-                  <span className="text-amber-600">650 (Fair)</span>
-                  <span className="text-teal-700">750+ (Prime)</span>
-                  <span>900</span>
+                <div className="flex justify-between text-[10px] font-bold text-[#4A5568]">
+                  <span className="text-[#A6534A]">300 (Subprime)</span>
+                  <span className="text-[#79552F]">650 (Fair)</span>
+                  <span className="text-[#1A2B4C]">750+ (Prime)</span>
+                  <span className="text-[#D4A373]">900</span>
                 </div>
               </div>
 
               {/* Loan Term Slider */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  <label className="text-xs font-bold text-[#1A2B4C] uppercase tracking-wider">
                     Loan Tenure (Years)
                   </label>
-                  <span className="text-base font-extrabold text-teal-900 bg-teal-50 px-2.5 py-0.5 rounded-md border border-teal-200">
+                  <span className="text-base font-extrabold text-[#1A2B4C] bg-[#FBF4EC] px-2.5 py-0.5 rounded-md border border-[#E2E5E9]">
                     {params.loan_term} Years ({params.loan_term * 12} Mos)
                   </span>
                 </div>
@@ -205,9 +205,9 @@ export const Simulator: React.FC = () => {
                   step={1}
                   value={params.loan_term}
                   onChange={(e) => setParams({ ...params, loan_term: parseInt(e.target.value) || 2 })}
-                  className="w-full h-2.5 bg-cream-300 rounded-lg appearance-none cursor-pointer accent-teal-750"
+                  className="w-full h-2.5 bg-[#E2E5E9] rounded-lg appearance-none cursor-pointer accent-[#D4A373]"
                 />
-                <div className="flex justify-between text-[10px] font-bold text-slate-400">
+                <div className="flex justify-between text-[10px] font-bold text-[#4A5568]">
                   <span>2 Years</span>
                   <span>10 Years</span>
                   <span>20 Years</span>
@@ -236,10 +236,10 @@ export const Simulator: React.FC = () => {
               </div>
 
               {/* Collateral Asset Values */}
-              <div className="pt-2 space-y-4 border-t border-cream-300">
+              <div className="pt-2 space-y-4 border-t border-[#E2E5E9]">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase text-slate-500">Asset Backing</span>
-                  <span className="text-xs font-extrabold text-teal-900">Total: {formatINR(totalAssets)}</span>
+                  <span className="text-xs font-bold uppercase text-[#4A5568]">Asset Backing</span>
+                  <span className="text-xs font-extrabold text-[#1A2B4C]">Total: {formatINR(totalAssets)}</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -273,13 +273,13 @@ export const Simulator: React.FC = () => {
               {/* Dependents & Categoricals */}
               <div className="grid grid-cols-3 gap-3 pt-2">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-600 uppercase mb-1">
+                  <label className="block text-[10px] font-bold text-[#4A5568] uppercase mb-1">
                     Dependents
                   </label>
                   <select
                     value={params.no_of_dependents}
                     onChange={(e) => setParams({ ...params, no_of_dependents: parseInt(e.target.value) || 0 })}
-                    className="w-full px-2.5 py-2 rounded-lg border border-cream-300 bg-cream-50/50 text-xs font-medium"
+                    className="w-full px-2.5 py-2 rounded-lg border border-[#E2E5E9] bg-white text-xs font-medium text-[#1A2B4C] focus:outline-none focus:border-[#D4A373]"
                   >
                     <option value={0}>0</option>
                     <option value={1}>1</option>
@@ -291,13 +291,13 @@ export const Simulator: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-600 uppercase mb-1">
+                  <label className="block text-[10px] font-bold text-[#4A5568] uppercase mb-1">
                     Education
                   </label>
                   <select
                     value={params.education}
                     onChange={(e) => setParams({ ...params, education: e.target.value as any })}
-                    className="w-full px-2.5 py-2 rounded-lg border border-cream-300 bg-cream-50/50 text-xs font-medium"
+                    className="w-full px-2.5 py-2 rounded-lg border border-[#E2E5E9] bg-white text-xs font-medium text-[#1A2B4C] focus:outline-none focus:border-[#D4A373]"
                   >
                     <option value="Graduate">Graduate</option>
                     <option value="Not Graduate">Not Graduate</option>
@@ -305,13 +305,13 @@ export const Simulator: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-600 uppercase mb-1">
+                  <label className="block text-[10px] font-bold text-[#4A5568] uppercase mb-1">
                     Self-Employed?
                   </label>
                   <select
                     value={params.self_employed}
                     onChange={(e) => setParams({ ...params, self_employed: e.target.value as any })}
-                    className="w-full px-2.5 py-2 rounded-lg border border-cream-300 bg-cream-50/50 text-xs font-medium"
+                    className="w-full px-2.5 py-2 rounded-lg border border-[#E2E5E9] bg-white text-xs font-medium text-[#1A2B4C] focus:outline-none focus:border-[#D4A373]"
                   >
                     <option value="No">No (Salaried)</option>
                     <option value="Yes">Yes (Business)</option>
@@ -324,7 +324,7 @@ export const Simulator: React.FC = () => {
                 type="button"
                 onClick={() => runSimulation(params)}
                 disabled={isSimulating}
-                className="w-full flex items-center justify-center space-x-2 py-4 px-6 rounded-xl bg-teal-750 text-white font-bold text-sm hover:bg-teal-850 transition-colors shadow-sm disabled:opacity-60"
+                className="w-full flex items-center justify-center space-x-2 py-4 px-6 rounded-xl bg-[#D4A373] text-white font-bold text-sm hover:bg-[#C48F5E] transition-colors shadow-sm disabled:opacity-60"
               >
                 {isSimulating ? (
                   <>
@@ -333,7 +333,7 @@ export const Simulator: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4 text-teal-200" />
+                    <Sparkles className="w-4 h-4 text-white" />
                     <span>Run Real-Time Simulation</span>
                   </>
                 )}
@@ -349,12 +349,12 @@ export const Simulator: React.FC = () => {
                 <div
                   className={`crediwise-card p-6 sm:p-8 border-2 transition-all ${
                     result.recommendation === "APPROVED"
-                      ? "bg-gradient-to-br from-white to-teal-50/50 border-teal-300"
-                      : "bg-gradient-to-br from-white to-coral-50/50 border-coral-300"
+                      ? "bg-[#FBF4EC]/30 border-[#D4A373]"
+                      : "bg-[#F8EEEE]/60 border-[#E5B8B3]"
                   }`}
                 >
-                  <div className="flex items-center justify-between pb-4 border-b border-cream-300">
-                    <span className="text-xs font-extrabold text-slate-500 uppercase tracking-widest">
+                  <div className="flex items-center justify-between pb-4 border-b border-[#E2E5E9]">
+                    <span className="text-xs font-extrabold text-[#4A5568] uppercase tracking-widest">
                       Simulated Outcome
                     </span>
                     <div className="flex items-center space-x-2">
@@ -366,10 +366,10 @@ export const Simulator: React.FC = () => {
                   <div className="py-6 space-y-4 text-center sm:text-left">
                     <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                       <div>
-                        <span className="text-xs font-bold text-slate-400 uppercase">
+                        <span className="text-xs font-bold text-[#4A5568] uppercase">
                           Simulated Approval Probability
                         </span>
-                        <div className="text-5xl font-black text-teal-900 tracking-tight mt-1">
+                        <div className="text-5xl font-black text-[#1A2B4C] tracking-tight mt-1">
                           {formatPercent(result.approval_probability)}
                         </div>
                       </div>
@@ -378,14 +378,14 @@ export const Simulator: React.FC = () => {
                         <div
                           className={`inline-flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-bold ${
                             probDelta > 0
-                              ? "bg-emerald-100 text-emerald-800"
-                              : "bg-rose-100 text-rose-800"
+                              ? "bg-[#FBF4EC] text-[#1A2B4C] border border-[#D4A373]"
+                              : "bg-[#F8EEEE] text-[#7A332D] border border-[#E5B8B3]"
                           }`}
                         >
                           {probDelta > 0 ? (
-                            <TrendingUp className="w-3.5 h-3.5" />
+                            <TrendingUp className="w-3.5 h-3.5 text-[#D4A373]" />
                           ) : (
-                            <TrendingDown className="w-3.5 h-3.5" />
+                            <TrendingDown className="w-3.5 h-3.5 text-[#A6534A]" />
                           )}
                           <span>
                             {probDelta > 0 ? "+" : ""}
@@ -395,37 +395,37 @@ export const Simulator: React.FC = () => {
                       )}
                     </div>
 
-                    <p className="text-xs text-slate-600 leading-relaxed">
+                    <p className="text-xs text-[#1A2B4C] leading-relaxed">
                       {result.risk_assessment.summary}
                     </p>
                   </div>
 
                   {/* Derived Metrics Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-cream-300 text-xs">
-                    <div className="p-3 rounded-lg bg-white border border-cream-300">
-                      <span className="text-slate-400 block text-[10px] font-semibold">Simulated EMI</span>
-                      <span className="text-teal-900 font-extrabold">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[#E2E5E9] text-xs">
+                    <div className="p-3 rounded-lg bg-white border border-[#E2E5E9]">
+                      <span className="text-[#4A5568] block text-[10px] font-semibold">Simulated EMI</span>
+                      <span className="text-[#1A2B4C] font-extrabold">
                         {formatINR(result.derived_indicators.estimated_principal_monthly_payment)}
                       </span>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-white border border-cream-300">
-                      <span className="text-slate-400 block text-[10px] font-semibold">Payment / Income</span>
-                      <span className="text-teal-900 font-extrabold">
+                    <div className="p-3 rounded-lg bg-white border border-[#E2E5E9]">
+                      <span className="text-[#4A5568] block text-[10px] font-semibold">Payment / Income</span>
+                      <span className="text-[#1A2B4C] font-extrabold">
                         {formatPercent(result.derived_indicators.estimated_payment_to_income_ratio)}
                       </span>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-white border border-cream-300">
-                      <span className="text-slate-400 block text-[10px] font-semibold">Asset Coverage</span>
-                      <span className="text-teal-900 font-extrabold">
+                    <div className="p-3 rounded-lg bg-white border border-[#E2E5E9]">
+                      <span className="text-[#4A5568] block text-[10px] font-semibold">Asset Coverage</span>
+                      <span className="text-[#1A2B4C] font-extrabold">
                         {result.derived_indicators.asset_to_loan_ratio.toFixed(2)}x
                       </span>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-white border border-cream-300">
-                      <span className="text-slate-400 block text-[10px] font-semibold">Simulated Capacity</span>
-                      <span className="text-teal-900 font-extrabold">
+                    <div className="p-3 rounded-lg bg-white border border-[#E2E5E9]">
+                      <span className="text-[#4A5568] block text-[10px] font-semibold">Simulated Capacity</span>
+                      <span className="text-[#1A2B4C] font-extrabold">
                         {result.risk_assessment.estimated_eligible_loan_amount
                           ? formatINR(result.risk_assessment.estimated_eligible_loan_amount)
                           : "Unavailable"}
@@ -436,7 +436,7 @@ export const Simulator: React.FC = () => {
 
                 {/* Simulated Factor Attributions */}
                 <div className="crediwise-card p-6 space-y-4">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-teal-900">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-[#1A2B4C]">
                     Simulated Contributing Factors
                   </h3>
 
@@ -448,8 +448,8 @@ export const Simulator: React.FC = () => {
                 </div>
 
                 {/* Simulation Notice */}
-                <div className="p-4 rounded-xl bg-teal-50 border border-teal-100 flex items-start space-x-3 text-xs text-teal-900">
-                  <Info className="w-4 h-4 text-teal-700 flex-shrink-0 mt-0.5" />
+                <div className="p-4 rounded-xl bg-[#FBF4EC]/40 border border-[#E2E5E9] flex items-start space-x-3 text-xs text-[#1A2B4C]">
+                  <Info className="w-4 h-4 text-[#D4A373] flex-shrink-0 mt-0.5" />
                   <p className="leading-relaxed">
                     This sandbox evaluates the live Gradient Boosting ML pipeline without storing application records. When satisfied with your parameters, you can submit a formal assessment.
                   </p>
@@ -458,7 +458,7 @@ export const Simulator: React.FC = () => {
                 <div className="pt-2">
                   <Link
                     to="/applications/new"
-                    className="w-full flex items-center justify-center space-x-2 py-3.5 px-6 rounded-xl bg-coral-500 hover:bg-coral-600 text-white font-bold text-sm transition-colors shadow-sm"
+                    className="w-full flex items-center justify-center space-x-2 py-3.5 px-6 rounded-xl bg-[#D4A373] hover:bg-[#C48F5E] text-white font-bold text-sm transition-colors shadow-sm"
                   >
                     <span>Apply with these Parameters</span>
                     <ArrowRight className="w-4 h-4" />
@@ -474,3 +474,4 @@ export const Simulator: React.FC = () => {
 };
 
 export default Simulator;
+

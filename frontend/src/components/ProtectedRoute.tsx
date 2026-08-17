@@ -1,8 +1,9 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { ShieldCheck } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { UserRole } from "../types/auth";
+
+import CrediWiseLogo from "./CrediWiseLogo";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -18,12 +19,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream-100 flex flex-col items-center justify-center p-4">
-        <div className="w-16 h-16 rounded-2xl bg-teal-850 flex items-center justify-center text-white shadow-md animate-pulse mb-4">
-          <ShieldCheck className="w-9 h-9 text-coral-400" />
+      <div className="min-h-screen bg-[#FFFFFF] flex flex-col items-center justify-center p-4">
+        <div className="mb-6 animate-pulse">
+          <CrediWiseLogo height="56px" />
         </div>
-        <div className="flex items-center space-x-2 text-teal-850 font-bold text-lg">
-          <div className="w-2 h-2 rounded-full bg-coral-500 animate-ping" />
+        <div className="flex items-center space-x-2 text-[#1A2B4C] font-bold text-base">
+          <div className="w-2 h-2 rounded-full bg-[#D4A373] animate-ping" />
           <span>Verifying CrediWise Session...</span>
         </div>
       </div>

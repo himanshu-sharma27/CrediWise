@@ -5,7 +5,7 @@ import {
   ArrowRight,
   ArrowLeft,
   AlertCircle,
-  ShieldCheck,
+  Award,
   Building2,
   Banknote,
   GraduationCap,
@@ -183,7 +183,7 @@ export const NewApplication: React.FC = () => {
         <div className="space-y-3">
           <Link
             to="/dashboard"
-            className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-500 hover:text-teal-850 transition-colors"
+            className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#4A5568] hover:text-[#1A2B4C] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Workspace Dashboard</span>
@@ -191,14 +191,14 @@ export const NewApplication: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-coral-100 border border-coral-200 text-coral-700 text-[11px] font-extrabold uppercase tracking-wider mb-2">
-                <FilePlus className="w-3.5 h-3.5 text-coral-600" />
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#FBF4EC] border border-[#E2E5E9] text-[#1A2B4C] text-[11px] font-extrabold uppercase tracking-wider mb-2">
+                <FilePlus className="w-3.5 h-3.5 text-[#D4A373]" />
                 <span>CANONICAL 11-PARAMETER ASSESSMENT</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-teal-900 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1A2B4C] tracking-tight">
                 New Loan Assessment
               </h1>
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-[#4A5568]">
                 Submit applicant financial details in native Indian Rupees (₹ INR) for real-time ML risk scoring.
               </p>
             </div>
@@ -208,21 +208,21 @@ export const NewApplication: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleQuickFill("prime")}
-                className="px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold hover:bg-teal-100 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-[#FBF4EC] border border-[#D4A373] text-[#1A2B4C] text-xs font-bold hover:bg-[#b5e6f8] transition-colors"
               >
                 Prime Sample
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickFill("moderate")}
-                className="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold hover:bg-amber-100 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-[#FBF4EC] border border-[#D4A373] text-[#79552F] text-xs font-bold hover:bg-[#feeaa0] transition-colors"
               >
                 Moderate Sample
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickFill("subprime")}
-                className="px-3 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-900 text-xs font-bold hover:bg-rose-100 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-[#F8EEEE] border border-[#E5B8B3] text-[#7A332D] text-xs font-bold hover:bg-[#ffe3dc] transition-colors"
               >
                 Subprime Sample
               </button>
@@ -231,8 +231,8 @@ export const NewApplication: React.FC = () => {
         </div>
 
         {globalError && (
-          <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-3 text-red-800 text-sm">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+          <div className="p-4 rounded-xl bg-[#F8EEEE] border border-[#E5B8B3] flex items-start space-x-3 text-[#7A332D] text-sm">
+            <AlertCircle className="w-5 h-5 text-[#A6534A] flex-shrink-0 mt-0.5" />
             <span>{globalError}</span>
           </div>
         )}
@@ -240,20 +240,20 @@ export const NewApplication: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Section 1: Applicant Profile */}
           <div className="crediwise-card p-6 sm:p-8 space-y-6">
-            <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-              <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-850 flex items-center justify-center">
-                <GraduationCap className="w-5 h-5" />
+            <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+              <div className="w-9 h-9 rounded-xl bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                <GraduationCap className="w-5 h-5 text-[#D4A373]" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-teal-900">1. Applicant Profile</h2>
-                <p className="text-xs text-slate-500">Personal &amp; professional background details</p>
+                <h2 className="text-lg font-bold text-[#1A2B4C]">1. Applicant Profile</h2>
+                <p className="text-xs text-[#4A5568]">Personal &amp; professional background details</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               <div className="sm:col-span-2 lg:col-span-1">
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                  Applicant Full Name <span className="text-coral-500">*</span>
+                <label className="block text-xs font-bold text-[#1A2B4C] uppercase tracking-wider mb-2">
+                  Applicant Full Name <span className="text-[#A6534A]">*</span>
                 </label>
                 <input
                   type="text"
@@ -261,21 +261,21 @@ export const NewApplication: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, applicant_name: e.target.value })}
                   placeholder="e.g. Rajesh Sharma"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700 focus:bg-white"
+                  className="w-full px-4 py-3 rounded-xl border border-[#E2E5E9] bg-white text-[#1A2B4C] text-sm focus:outline-none focus:border-[#D4A373]"
                 />
                 {errors.applicant_name && (
-                  <p className="text-xs text-red-600 mt-1">{errors.applicant_name}</p>
+                  <p className="text-xs text-[#A6534A] mt-1">{errors.applicant_name}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                  Number of Dependents <span className="text-coral-500">*</span>
+                <label className="block text-xs font-bold text-[#1A2B4C] uppercase tracking-wider mb-2">
+                  Number of Dependents <span className="text-[#A6534A]">*</span>
                 </label>
                 <select
                   value={formData.no_of_dependents}
                   onChange={(e) => setFormData({ ...formData, no_of_dependents: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700 focus:bg-white"
+                  className="w-full px-4 py-3 rounded-xl border border-[#E2E5E9] bg-white text-[#1A2B4C] text-sm focus:outline-none focus:border-[#D4A373]"
                 >
                   <option value={0}>0 Dependents</option>
                   <option value={1}>1 Dependent</option>
@@ -285,18 +285,18 @@ export const NewApplication: React.FC = () => {
                   <option value={5}>5+ Dependents</option>
                 </select>
                 {errors.no_of_dependents && (
-                  <p className="text-xs text-red-600 mt-1">{errors.no_of_dependents}</p>
+                  <p className="text-xs text-[#A6534A] mt-1">{errors.no_of_dependents}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                  Education Level <span className="text-coral-500">*</span>
+                <label className="block text-xs font-bold text-[#1A2B4C] uppercase tracking-wider mb-2">
+                  Education Level <span className="text-[#A6534A]">*</span>
                 </label>
                 <select
                   value={formData.education}
                   onChange={(e) => setFormData({ ...formData, education: e.target.value as any })}
-                  className="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700 focus:bg-white"
+                  className="w-full px-4 py-3 rounded-xl border border-[#E2E5E9] bg-white text-[#1A2B4C] text-sm focus:outline-none focus:border-[#D4A373]"
                 >
                   <option value="Graduate">Graduate (Degree completed)</option>
                   <option value="Not Graduate">Not Graduate</option>
@@ -304,13 +304,13 @@ export const NewApplication: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                  Self Employed? <span className="text-coral-500">*</span>
+                <label className="block text-xs font-bold text-[#1A2B4C] uppercase tracking-wider mb-2">
+                  Self Employed? <span className="text-[#A6534A]">*</span>
                 </label>
                 <select
                   value={formData.self_employed}
                   onChange={(e) => setFormData({ ...formData, self_employed: e.target.value as any })}
-                  className="w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700 focus:bg-white"
+                  className="w-full px-4 py-3 rounded-xl border border-[#E2E5E9] bg-white text-[#1A2B4C] text-sm focus:outline-none focus:border-[#D4A373]"
                 >
                   <option value="No">No (Salaried Professional)</option>
                   <option value="Yes">Yes (Self-Employed / Business Owner)</option>
@@ -321,13 +321,13 @@ export const NewApplication: React.FC = () => {
 
           {/* Section 2: Income & Loan Details */}
           <div className="crediwise-card p-6 sm:p-8 space-y-6">
-            <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-              <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-850 flex items-center justify-center">
-                <Banknote className="w-5 h-5" />
+            <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+              <div className="w-9 h-9 rounded-xl bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                <Banknote className="w-5 h-5 text-[#D4A373]" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-teal-900">2. Income &amp; Loan Parameters</h2>
-                <p className="text-xs text-slate-500">Monetary requested amount and verifiable earnings in INR</p>
+                <h2 className="text-lg font-bold text-[#1A2B4C]">2. Income &amp; Loan Parameters</h2>
+                <p className="text-xs text-[#4A5568]">Monetary requested amount and verifiable earnings in INR</p>
               </div>
             </div>
 
@@ -356,10 +356,10 @@ export const NewApplication: React.FC = () => {
 
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Loan Term <span className="text-coral-500">*</span>
+                  <label className="block text-xs font-bold text-[#1A2B4C] uppercase tracking-wider">
+                    Loan Term <span className="text-[#A6534A]">*</span>
                   </label>
-                  <span className="text-xs font-extrabold text-teal-800 bg-teal-100/80 px-2 py-0.5 rounded">
+                  <span className="text-xs font-extrabold text-[#1A2B4C] bg-[#FBF4EC] px-2 py-0.5 rounded border border-[#E2E5E9]">
                     {formData.loan_term} Years ({formData.loan_term * 12} Mos)
                   </span>
                 </div>
@@ -370,28 +370,28 @@ export const NewApplication: React.FC = () => {
                   step={1}
                   value={formData.loan_term}
                   onChange={(e) => setFormData({ ...formData, loan_term: parseInt(e.target.value) || 2 })}
-                  className="w-full h-2 bg-cream-300 rounded-lg appearance-none cursor-pointer accent-teal-750 mt-3"
+                  className="w-full h-2 bg-[#E2E5E9] rounded-lg appearance-none cursor-pointer accent-[#D4A373] mt-3"
                 />
-                <div className="flex justify-between text-[10px] font-bold text-slate-400">
+                <div className="flex justify-between text-[10px] font-bold text-[#4A5568]">
                   <span>2 Years</span>
                   <span>10 Years</span>
                   <span>20 Years</span>
                 </div>
-                {errors.loan_term && <p className="text-xs text-red-600">{errors.loan_term}</p>}
+                {errors.loan_term && <p className="text-xs text-[#A6534A]">{errors.loan_term}</p>}
               </div>
             </div>
           </div>
 
           {/* Section 3: Credit Profile */}
           <div className="crediwise-card p-6 sm:p-8 space-y-6">
-            <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-              <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-850 flex items-center justify-center">
-                <ShieldCheck className="w-5 h-5" />
+            <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+              <div className="w-9 h-9 rounded-xl bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                <Award className="w-5 h-5 text-[#D4A373]" />
               </div>
               <div className="flex-1 flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-teal-900">3. Credit Bureau Profile</h2>
-                  <p className="text-xs text-slate-500">CIBIL credit score (300 to 900)</p>
+                  <h2 className="text-lg font-bold text-[#1A2B4C]">3. Credit Bureau Profile</h2>
+                  <p className="text-xs text-[#4A5568]">CIBIL credit score (300 to 900)</p>
                 </div>
                 <span className={`px-3 py-1 rounded-xl text-xs font-extrabold border ${cibilTier.badgeClass}`}>
                   {cibilTier.label}
@@ -401,10 +401,10 @@ export const NewApplication: React.FC = () => {
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                <label className="text-xs font-bold text-[#1A2B4C] uppercase tracking-wider">
                   CIBIL Score
                 </label>
-                <span className="text-xl font-extrabold text-teal-900">
+                <span className="text-xl font-extrabold text-[#1A2B4C]">
                   {formData.cibil_score}
                 </span>
               </div>
@@ -415,32 +415,32 @@ export const NewApplication: React.FC = () => {
                 step={5}
                 value={formData.cibil_score}
                 onChange={(e) => setFormData({ ...formData, cibil_score: parseInt(e.target.value) || 300 })}
-                className="w-full h-3 bg-cream-300 rounded-lg appearance-none cursor-pointer accent-teal-750"
+                className="w-full h-3 bg-[#E2E5E9] rounded-lg appearance-none cursor-pointer accent-[#D4A373]"
               />
-              <div className="flex justify-between text-[11px] font-bold text-slate-400">
-                <span className="text-rose-600">300 (Sub-Prime)</span>
-                <span className="text-amber-600">650 (Fair)</span>
-                <span className="text-teal-600">750 (Prime Benchmark)</span>
-                <span className="text-emerald-700">900</span>
+              <div className="flex justify-between text-[11px] font-bold text-[#4A5568]">
+                <span className="text-[#A6534A]">300 (Sub-Prime)</span>
+                <span className="text-[#79552F]">650 (Fair)</span>
+                <span className="text-[#1A2B4C]">750 (Prime Benchmark)</span>
+                <span className="text-[#D4A373]">900</span>
               </div>
-              {errors.cibil_score && <p className="text-xs text-red-600">{errors.cibil_score}</p>}
+              {errors.cibil_score && <p className="text-xs text-[#A6534A]">{errors.cibil_score}</p>}
             </div>
           </div>
 
           {/* Section 4: Asset Information */}
           <div className="crediwise-card p-6 sm:p-8 space-y-6">
-            <div className="flex items-center space-x-3 pb-3 border-b border-cream-300">
-              <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-850 flex items-center justify-center">
-                <Building2 className="w-5 h-5" />
+            <div className="flex items-center space-x-3 pb-3 border-b border-[#E2E5E9]">
+              <div className="w-9 h-9 rounded-xl bg-[#FBF4EC] text-[#1A2B4C] flex items-center justify-center">
+                <Building2 className="w-5 h-5 text-[#D4A373]" />
               </div>
               <div className="flex-1 flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-teal-900">4. Asset Portfolio</h2>
-                  <p className="text-xs text-slate-500">Valuation of owned tangible &amp; liquid collateral</p>
+                  <h2 className="text-lg font-bold text-[#1A2B4C]">4. Asset Portfolio</h2>
+                  <p className="text-xs text-[#4A5568]">Valuation of owned tangible &amp; liquid collateral</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase block">Total Assets</span>
-                  <span className="text-sm font-extrabold text-teal-900">{formatINR(totalAssets)}</span>
+                  <span className="text-[10px] font-bold text-[#4A5568] uppercase block">Total Assets</span>
+                  <span className="text-sm font-extrabold text-[#1A2B4C]">{formatINR(totalAssets)}</span>
                 </div>
               </div>
             </div>
@@ -488,7 +488,7 @@ export const NewApplication: React.FC = () => {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <Link
               to="/dashboard"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white border border-cream-300 text-slate-700 font-bold text-sm text-center hover:bg-cream-50 transition-colors"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white border border-[#E2E5E9] text-[#1A2B4C] font-bold text-sm text-center hover:bg-[#F8F9FA] transition-colors"
             >
               Cancel
             </Link>
@@ -496,7 +496,7 @@ export const NewApplication: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 px-10 py-4 rounded-xl bg-teal-750 text-white font-bold text-base hover:bg-teal-850 transition-all shadow-md disabled:opacity-60"
+              className="w-full sm:w-auto flex items-center justify-center space-x-2 px-10 py-4 rounded-xl bg-[#D4A373] text-white font-bold text-base hover:bg-[#C48F5E] transition-all shadow-md disabled:opacity-60"
             >
               {isSubmitting ? (
                 <>
@@ -505,9 +505,9 @@ export const NewApplication: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-5 h-5 text-teal-200" />
+                  <Sparkles className="w-5 h-5 text-white" />
                   <span>Submit Application Assessment</span>
-                  <ArrowRight className="w-5 h-5 text-teal-200" />
+                  <ArrowRight className="w-5 h-5 text-white" />
                 </>
               )}
             </button>
@@ -519,3 +519,4 @@ export const NewApplication: React.FC = () => {
 };
 
 export default NewApplication;
+
