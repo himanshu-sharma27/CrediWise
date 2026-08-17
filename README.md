@@ -7,7 +7,7 @@
 
 ## 📌 Project Overview
 
-**CrediWiseAI** is an intelligent loan evaluation platform designed to bridge the gap between complex credit risk modeling and transparent, understandable decision-making for applicants and lenders.
+**CrediWise** is an intelligent loan evaluation platform designed to bridge the gap between complex credit risk modeling and transparent, understandable decision-making for applicants and lenders.
 
 Built around the **Kaggle INR-native Loan Approval Dataset**, the platform provides:
 - **Calibrated Approval Predictions:** Machine learning predictions powered by Gradient Boosting (`loan-model-v2.0`).
