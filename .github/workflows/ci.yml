@@ -59,7 +59,7 @@ jobs:
           MODEL_PATH: ml/models/loan_model_v2.joblib
           MODEL_VERSION: loan-model-v2.1-synthetic-10000
           DEFAULT_CURRENCY: INR
-          CORS_ORIGINS: "http://localhost:5173,http://localhost:3000"
+          CORS_ORIGINS: '["http://localhost:5173","http://localhost:3000"]'
         run: |
           export SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(32))")
           python -m pytest backend/app/tests -v
