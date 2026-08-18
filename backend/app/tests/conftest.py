@@ -14,6 +14,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
+from backend.app.core.config import normalize_database_url
 from backend.app.core.security import create_access_token, get_password_hash
 from backend.app.db.session import Base, get_db
 from backend.app.main import app
@@ -31,11 +32,7 @@ if TEST_DATABASE_URL.startswith("sqlite"):
         poolclass=StaticPool,
     )
 else:
-    if TEST_DATABASE_URL.startswith("postgres://"):
-        TEST_DATABASE_URL = "postgresql+psycopg://" + TEST_DATABASE_URL[len("postgres://"):]
-    elif TEST_DATABASE_URL.startswith("postgresql://") and not TEST_DATABASE_URL.startswith("postgresql+"):
-        TEST_DATABASE_URL = "postgresql+psycopg://" + TEST_DATABASE_URL[len("postgresql://"):]
-
+    TEST_DATABASE_URL = normalize_database_url(TEST_DATABASE_URL)
     engine = create_engine(
         TEST_DATABASE_URL,
         pool_pre_ping=True,

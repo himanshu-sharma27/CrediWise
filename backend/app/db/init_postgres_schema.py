@@ -17,7 +17,7 @@ from typing import Dict, List, Optional
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.engine import Engine
 
-# Ensure all SQLAlchemy models are registered on Base.metadata
+from backend.app.core.config import normalize_database_url
 from backend.app.db.session import Base
 from backend.app.models.models import (
     AuditLog,
@@ -51,12 +51,7 @@ def create_postgres_engine(database_url: Optional[str] = None) -> Engine:
             "No PostgreSQL database URL provided. Set POSTGRES_DATABASE_URL environment variable or pass --db-url."
         )
     
-    # Normalize postgres:// or postgresql:// to postgresql+psycopg:// if needed for psycopg 3
-    if url.startswith("postgres://"):
-        url = "postgresql+psycopg://" + url[len("postgres://"):]
-    elif url.startswith("postgresql://") and not url.startswith("postgresql+"):
-        url = "postgresql+psycopg://" + url[len("postgresql://"):]
-
+    url = normalize_database_url(url)
     return create_engine(url, pool_pre_ping=True)
 
 

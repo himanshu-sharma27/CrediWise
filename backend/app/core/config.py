@@ -17,6 +17,25 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
+def normalize_database_url(url: Optional[str]) -> str:
+    """Normalizes PostgreSQL database URLs to ensure Psycopg 3 dialect is used.
+
+    Render, Heroku, and other cloud providers often provide DATABASE_URL starting with
+    'postgres://' or 'postgresql://', which SQLAlchemy defaults to the 'psycopg2' driver.
+    This normalizes any PostgreSQL connection scheme to 'postgresql+psycopg://'.
+    """
+    if not url:
+        return f"sqlite:///{PROJECT_ROOT / 'crediwise.db'}"
+    url_str = str(url).strip()
+    if url_str.startswith("postgres://"):
+        return "postgresql+psycopg://" + url_str[len("postgres://"):]
+    if url_str.startswith("postgresql+psycopg2://"):
+        return "postgresql+psycopg://" + url_str[len("postgresql+psycopg2://"):]
+    if url_str.startswith("postgresql://") and not url_str.startswith("postgresql+"):
+        return "postgresql+psycopg://" + url_str[len("postgresql://"):]
+    return url_str
+
+
 class Settings(BaseSettings):
     """Application Settings and Environment Configuration."""
 
@@ -54,6 +73,11 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://127.0.0.1:3000",
     ]
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def assemble_database_url(cls, v: Optional[str]) -> str:
+        return normalize_database_url(v)
 
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod

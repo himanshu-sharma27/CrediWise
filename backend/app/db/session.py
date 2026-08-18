@@ -10,15 +10,16 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from backend.app.core.config import settings
+from backend.app.core.config import normalize_database_url, settings
 
-# Configure SQLite engine with check_same_thread=False
+# Ensure normalized Psycopg 3 URL and configure SQLite engine with check_same_thread=False
+db_url = normalize_database_url(settings.DATABASE_URL)
 connect_args = {}
-if settings.DATABASE_URL.startswith("sqlite"):
+if db_url.startswith("sqlite"):
     connect_args["check_same_thread"] = False
 
 engine = create_engine(
-    settings.DATABASE_URL,
+    db_url,
     connect_args=connect_args,
     pool_pre_ping=True,
 )

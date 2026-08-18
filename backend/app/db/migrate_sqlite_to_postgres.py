@@ -21,7 +21,7 @@ from sqlalchemy import create_engine, inspect, select, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from backend.app.core.config import PROJECT_ROOT, settings
+from backend.app.core.config import PROJECT_ROOT, normalize_database_url, settings
 from backend.app.db.session import Base
 from backend.app.models.models import (
     AuditLog,
@@ -63,12 +63,7 @@ def get_target_engine(target_url: Optional[str] = None) -> Engine:
             "Set POSTGRES_MIGRATION_URL environment variable."
         )
     
-    # Normalize postgresql:// to postgresql+psycopg:// if needed for psycopg 3
-    if url.startswith("postgres://"):
-        url = "postgresql+psycopg://" + url[len("postgres://"):]
-    elif url.startswith("postgresql://") and not url.startswith("postgresql+"):
-        url = "postgresql+psycopg://" + url[len("postgresql://"):]
-
+    url = normalize_database_url(url)
     return create_engine(url, pool_pre_ping=True)
 
 
