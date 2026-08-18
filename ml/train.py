@@ -46,8 +46,10 @@ logger = logging.getLogger(__name__)
 
 PROCESSED_DATA_PATH = PROJECT_ROOT / "data" / "processed" / "loan_approval_processed.csv"
 MODEL_ARTIFACT_PATH = PROJECT_ROOT / "ml" / "models" / "loan_model_v2.joblib"
-MODEL_VERSION = "loan-model-v2.0"
+MODEL_VERSION = "loan-model-v2.1-synthetic-10000"
 TRAINING_CURRENCY = "INR"
+DATASET_NAME = "loan_approval_dataset_10000_synthetic.csv"
+EXPECTED_PROCESSED_MIN_ROWS = 9997
 RANDOM_STATE = 42
 
 # 18 Numeric Features + 2 Categorical Features (20 Total Model Features)
@@ -502,8 +504,24 @@ def train_and_serialize_pipeline(
     df = pd.read_csv(data_path)
     logger.info(f"Loaded processed dataset: {len(df)} rows.")
 
-    # 1. Feature Matrix & Target
+    # Dataset-specific integrity checks for the new 10,000-row source dataset.
+    if len(df) < EXPECTED_PROCESSED_MIN_ROWS:
+        raise ValueError(
+            f"Processed dataset has {len(df)} rows; expected at least "
+            f"{EXPECTED_PROCESSED_MIN_ROWS} after excluding the 3 zero-income rows."
+        )
+
     feature_cols = ALLOWED_NUMERIC_FEATURES + ALLOWED_CATEGORICAL_FEATURES
+    missing_features = [c for c in feature_cols + [TARGET_COLUMN] if c not in df.columns]
+    if missing_features:
+        raise ValueError(f"Processed dataset is missing required model columns: {missing_features}")
+
+    if df[feature_cols].isnull().any().any():
+        raise ValueError("Model feature matrix contains null values.")
+    if not np.isfinite(df[ALLOWED_NUMERIC_FEATURES].to_numpy(dtype=float)).all():
+        raise ValueError("Model feature matrix contains NaN or infinite numeric values.")
+
+    # 1. Feature Matrix & Target
     X = df[feature_cols]
     y = df[TARGET_COLUMN]
 
@@ -584,6 +602,8 @@ def train_and_serialize_pipeline(
         "ablation_results": ablation_results,
         "split_sensitivity": sensitivity_results,
         "stress_test_results": stress_results,
+        "dataset_name": DATASET_NAME,
+        "processed_row_count": len(df),
         "training_row_count": len(X_train),
         "test_row_count": len(X_test),
         "training_currency": TRAINING_CURRENCY,
