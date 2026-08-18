@@ -3,6 +3,8 @@
 > **Smart Loan Decision Platform**  
 > *Explainable, INR-Native Credit Risk Assessment & Automated Underwriting*
 
+[![CrediWise CI](https://github.com/himanshu-sharma27/CrediWise/actions/workflows/ci.yml/badge.svg)](https://github.com/himanshu-sharma27/CrediWise/actions/workflows/ci.yml)
+
 ---
 
 ## 📌 Project Overview

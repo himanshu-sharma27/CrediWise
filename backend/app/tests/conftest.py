@@ -19,14 +19,27 @@ from backend.app.db.session import Base, get_db
 from backend.app.main import app
 from backend.app.models.models import User
 
-# In-memory SQLite engine for fast, isolated test runs
-TEST_DATABASE_URL = "sqlite:///:memory:"
+import os
 
-engine = create_engine(
-    TEST_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
+# Test database engine: uses configured DATABASE_URL (e.g. PostgreSQL in CI) or falls back to in-memory SQLite
+TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL") or os.environ.get("DATABASE_URL") or "sqlite:///:memory:"
+
+if TEST_DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(
+        TEST_DATABASE_URL,
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+else:
+    if TEST_DATABASE_URL.startswith("postgres://"):
+        TEST_DATABASE_URL = "postgresql+psycopg://" + TEST_DATABASE_URL[len("postgres://"):]
+    elif TEST_DATABASE_URL.startswith("postgresql://") and not TEST_DATABASE_URL.startswith("postgresql+"):
+        TEST_DATABASE_URL = "postgresql+psycopg://" + TEST_DATABASE_URL[len("postgresql://"):]
+
+    engine = create_engine(
+        TEST_DATABASE_URL,
+        pool_pre_ping=True,
+    )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
