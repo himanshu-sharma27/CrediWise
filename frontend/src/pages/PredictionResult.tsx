@@ -177,7 +177,7 @@ export const PredictionResult: React.FC = () => {
                 Assessment Outcome &amp; Factor Analysis
               </h1>
               <p className="text-sm text-[#4A5568]">
-                Decision evaluated via certified <code className="text-[#1A2B4C] font-mono font-bold">{prediction.model_version}</code> Gradient Boosting pipeline in native INR (₹).
+                Decision evaluated via certified <code className="text-[#1A2B4C] font-mono font-bold">{prediction.model_version}</code> machine learning pipeline in native INR (₹).
               </p>
             </div>
 

@@ -148,7 +148,7 @@ def generate_assessment_pdf(
             Paragraph(
                 f"<b>Application ID:</b> {app_number}<br/>"
                 f"<b>Date:</b> {formatted_date}<br/>"
-                f"<b>Model:</b> {getattr(prediction, 'model_version', 'loan-model-v2.0')}",
+                f"<b>Model:</b> {getattr(prediction, 'model_version', 'loan-model-v2.1-synthetic-10000')}",
                 subtitle_style,
             ),
         ]

@@ -27,7 +27,7 @@ def test_generate_assessment_pdf_structure(db_session, test_user, valid_applicat
 
     # Mock prediction record
     mock_prediction = MagicMock()
-    mock_prediction.model_version = "loan-model-v2.0"
+    mock_prediction.model_version = "loan-model-v2.1-synthetic-10000"
     mock_prediction.recommendation = "APPROVED"
     mock_prediction.approval_probability = 0.885
     mock_prediction.risk_level = "LOW"

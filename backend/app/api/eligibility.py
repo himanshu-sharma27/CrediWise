@@ -9,6 +9,7 @@ from __future__ import annotations
 from fastapi import APIRouter
 from backend.app.core.config import settings
 from backend.app.schemas.schemas import EligibilityRuleItem, EligibilityRulesResponse
+from backend.app.services.ml_service import load_model_artifact
 
 router = APIRouter(prefix="/eligibility", tags=["Eligibility"])
 
@@ -114,11 +115,19 @@ def get_eligibility_rules() -> EligibilityRulesResponse:
         "and decision-support purposes only and do not constitute a binding financial agreement or guarantee of loan sanction."
     )
 
+    try:
+        bundle = load_model_artifact()
+        model_ver = bundle.get("model_version", settings.MODEL_VERSION)
+        algo_name = bundle.get("model_name", "Random Forest")
+    except Exception:
+        model_ver = settings.MODEL_VERSION
+        algo_name = "Random Forest"
+
     return EligibilityRulesResponse(
         currency=settings.DEFAULT_CURRENCY,
         currency_symbol=settings.CURRENCY_SYMBOL,
-        model_version=settings.MODEL_VERSION,
-        algorithm="Gradient Boosting Classifier",
+        model_version=model_ver,
+        algorithm=algo_name,
         features=features,
         cibil_score_guide=cibil_guide,
         disclaimer=disclaimer,

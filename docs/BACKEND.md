@@ -1,9 +1,9 @@
 # CrediWiseAI — Backend & Risk Engine Architecture
 
 > **Service:** FastAPI Backend REST API  
-> **Model Target:** `loan-model-v2.0` (`ml/models/loan_model_v2.joblib`)  
+> **Model Target:** `loan-model-v2.1-synthetic-10000` (`ml/models/loan_model_v2.joblib`)  
 > **Target Currency:** Indian Rupee (INR / ₹)  
-> **Database:** SQLite with SQLAlchemy ORM  
+> **Database:** SQLite / PostgreSQL with SQLAlchemy ORM  
 
 ---
 
@@ -15,6 +15,7 @@ The CrediWiseAI backend is engineered for simplicity, auditability, deterministi
 backend/
 ├── app/
 │   ├── api/              # FastAPI route controllers (HTTP & Status mapping only)
+│   │   ├── admin.py
 │   │   ├── applications.py
 │   │   ├── auth.py
 │   │   ├── deps.py       # JWT validation & RBAC guards
@@ -43,7 +44,7 @@ backend/
 Real-time model inference is encapsulated entirely within `backend/app/services/ml_service.py`:
 
 1. **Model Cache (`load_model_artifact`):**
-   - The production Gradient Boosting pipeline (`loan_model_v2.joblib`) is loaded into memory on startup and cached across requests for sub-10ms inference.
+   - The production Random Forest pipeline (`loan_model_v2.joblib`) is loaded into memory on startup and cached across requests for sub-10ms inference.
 2. **Deterministic Feature Engineering:**
    - Evaluates the 10 derived features in Indian Rupees without frontend dependencies or training discrepancies:
      - $\text{monthly\_income} = \frac{\text{income\_annum}}{12}$

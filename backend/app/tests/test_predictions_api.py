@@ -38,7 +38,7 @@ def test_generate_prediction_success(
     pred_data = pred_res.json()
 
     assert pred_data["application_id"] == app_id
-    assert pred_data["model_version"] == "loan-model-v2.0"
+    assert pred_data["model_version"] == "loan-model-v2.1-synthetic-10000"
     assert pred_data["recommendation"] in ["APPROVED", "REJECTED"]
     assert 0.0 <= pred_data["approval_probability"] <= 1.0
     assert pred_data["risk_level"] in ["LOW", "MEDIUM", "HIGH"]

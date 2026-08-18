@@ -1,9 +1,9 @@
 # CrediWiseAI — System Architecture & Contracts
 
-> **Status:** Architecture Lock (Phase 0)  
-> **Version:** 2.0.0  
+> **Status:** Active & Verified (Phase 4)  
+> **Version:** 2.1.0  
 > **Target Currency:** INR (₹)  
-> **Model Target:** `loan-model-v2.0` (Gradient Boosting Classifier)
+> **Model Target:** `loan-model-v2.1-synthetic-10000` (Random Forest Classifier)
 
 ---
 
@@ -12,7 +12,7 @@
 **CrediWiseAI** is an AI-powered smart loan decision platform that evaluates applicant financial data, predicts loan approval probabilities, categorizes risk, explains key contributing factors, provides what-if simulation, and supports authorized human review and oversight.
 
 The system is engineered around two non-negotiable core foundations:
-1. **Source of Prediction Truth:** The Kaggle INR-native loan approval dataset and its derived `loan-model-v2.0` pipeline.
+1. **Source of Prediction Truth:** The INR-native loan approval dataset augmented with synthetic applicant records and its derived `loan-model-v2.1-synthetic-10000` pipeline.
 2. **Deterministic Monetary Context:** 100% native Indian Rupee (INR / ₹) values without arbitrary currency conversions or unit confusion.
 
 ---

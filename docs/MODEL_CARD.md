@@ -1,8 +1,8 @@
-# CrediWiseAI — Model Card (`loan-model-v2.0`)
+# CrediWiseAI — Model Card (`loan-model-v2.1-synthetic-10000`)
 
-> **Model Identifier:** `loan-model-v2.0`  
-> **Model Type:** Gradient Boosting Classifier (`scikit-learn`)  
-> **Version Release:** 2.0.0 (Phase 2 Trained & Certified)  
+> **Model Identifier:** `loan-model-v2.1-synthetic-10000`  
+> **Model Type:** Random Forest Classifier (`scikit-learn`)  
+> **Version Release:** 2.1.0 (Phase 2 Trained on Augmented Dataset)  
 > **Artifact Path:** `ml/models/loan_model_v2.joblib`  
 > **Training Base Currency:** Indian Rupee (INR / ₹)
 
@@ -26,17 +26,17 @@ CrediWiseAI automates credit risk evaluation and loan approval probability estim
 
 ## 2. Dataset & Features
 
-- **Source Dataset:** Kaggle INR-Native Loan Approval Dataset (`data/raw/loan_approval_dataset.csv`).
-- **Dataset Size:** 4,269 total records (Train: 3,415 records | Test: 854 records).
-- **Target Definition:** `loan_approved` (Binary: `1` = Approved [62.22%], `0` = Rejected [37.78%]).
+- **Source Dataset:** Original INR-native loan approval dataset augmented with synthetic applicant records (`data/raw/loan_approval_dataset.csv`).
+- **Dataset Size:** 10,000 raw records; 9,997 usable processed records after deterministic exclusion of 3 zero-income records (Train: 7,997 records | Test: 2,000 records).
+- **Target Definition:** `loan_approved` (Binary: `1` = Approved [62.26%], `0` = Rejected [37.74%]).
 
 ### 2.1 Feature List (20 Total Features)
 
 #### 18 Numeric Features:
 1. `no_of_dependents` (0-5)
-2. `income_annum` (₹2,00,000 – ₹99,00,000)
-3. `loan_amount` (₹3,00,000 – ₹3,95,00,000)
-4. `loan_term` (2 – 20 years)
+2. `income_annum` (₹1,00,000 – ₹1,06,00,000)
+3. `loan_amount` (₹1,00,000 – ₹4,16,00,000)
+4. `loan_term` (1 – 20 years)
 5. `cibil_score` (300 – 900)
 6. `residential_assets_value` (₹0 – ₹2,91,00,000)
 7. `commercial_assets_value` (₹0 – ₹1,94,00,000)
@@ -67,27 +67,27 @@ CrediWiseAI automates credit risk evaluation and loan approval probability estim
 
 - **Numeric Pipeline:** `StandardScaler` fitted exclusively on training data.
 - **Categorical Pipeline:** `OneHotEncoder(handle_unknown='ignore', drop='if_binary')` fitted exclusively on training data.
-- **Model Architecture:** `GradientBoostingClassifier(n_estimators=150, learning_rate=0.05, max_depth=3, random_state=42)`.
+- **Model Architecture:** `RandomForestClassifier(n_estimators=200, max_depth=8, random_state=42)`.
 - **Ensemble Container:** Packaged as an end-to-end `sklearn.pipeline.Pipeline` serialized with `joblib`.
 
 ---
 
 ## 4. Evaluation & Performance Benchmarks
 
-### 4.1 5-Fold Stratified Cross-Validation ($N=3,415$)
-- **Accuracy:** $0.9991 \pm 0.0012$
-- **Precision:** $0.9986 \pm 0.0019$
-- **Recall:** $1.0000 \pm 0.0000$
-- **F1-Score:** $\mathbf{0.9993 \pm 0.0009}$
-- **ROC-AUC:** $\mathbf{0.9996 \pm 0.0008}$
+### 4.1 5-Fold Stratified Cross-Validation ($N=7,997$)
+- **Accuracy:** $0.9527 \pm 0.0037$
+- **Precision:** $0.9524 \pm 0.0044$
+- **Recall:** $0.9727 \pm 0.0057$
+- **F1-Score:** $\mathbf{0.9624 \pm 0.0030}$ (Primary Selection Criterion)
+- **ROC-AUC:** $\mathbf{0.9656 \pm 0.0043}$ (Secondary Tie-Breaker)
 
-### 4.2 Held-Out Test Evaluation (20% Split, $N=854$)
-- **Test Accuracy:** $1.0000$ (100.00%)
-- **Test Precision:** $1.0000$ (100.00%)
-- **Test Recall:** $1.0000$ (100.00%)
-- **Test F1-Score:** $1.0000$ (100.00%)
-- **Test ROC-AUC:** $1.0000$
-- **Brier Score Loss:** $2.54 \times 10^{-5}$ (Highly calibrated)
+### 4.2 Held-Out Test Evaluation (20% Split, $N=2,000$)
+- **Test Accuracy:** $0.9510$ (95.10%)
+- **Test Precision:** $0.9584$ (95.84%)
+- **Test Recall:** $0.9631$ (96.31%)
+- **Test F1-Score:** $0.9607$
+- **Test ROC-AUC:** $0.9602$
+- **Brier Score Loss:** $0.0498$
 
 ---
 
@@ -95,18 +95,23 @@ CrediWiseAI automates credit risk evaluation and loan approval probability estim
 
 | Rank | Feature | Importance | Interpretation |
 | :--- | :--- | :--- | :--- |
-| 1 | `cibil_score` | **81.03%** | Bureau creditworthiness & repayment history |
-| 2 | `estimated_payment_to_income_ratio` | **11.22%** | Monthly debt cash flow burden |
-| 3 | `loan_to_annual_income_ratio` | **3.80%** | Overall borrowing leverage multiple |
-| 4 | `loan_to_monthly_income_ratio` | **2.52%** | Monthly leverage multiple |
-| 5 | `asset_to_loan_ratio` | **1.35%** | Total collateral backing relative to principal |
+| 1 | `cibil_score` | **78.25%** | Bureau creditworthiness & repayment history |
+| 2 | `estimated_payment_to_income_ratio` | **3.68%** | Monthly debt cash flow burden |
+| 3 | `loan_to_monthly_income_ratio` | **2.16%** | Short-term debt-to-income multiple |
+| 4 | `loan_term` | **2.07%** | Repayment tenure in years |
+| 5 | `loan_to_annual_income_ratio` | **2.03%** | Overall borrowing leverage multiple |
+| 6 | `asset_to_loan_ratio` | **1.93%** | Total collateral backing relative to principal |
+| 7 | `loan_term_months` | **1.75%** | Repayment tenure in months |
+| 8 | `estimated_principal_monthly_payment` | **1.35%** | Monthly principal repayment requirement |
+| 9 | `loan_amount` | **0.85%** | Requested principal amount |
+| 10 | `commercial_assets_value` | **0.82%** | Commercial property collateral backing |
 
 ---
 
 ## 6. Probability Interpretation & Decision Policy
 
 - **Output Range:** Internally bounded strictly within $[0.0, 1.0]$.
-- **Statistical Meaning:** The model output represents estimated confidence of sanction based on the Kaggle training distribution.
+- **Statistical Meaning:** The model output represents estimated confidence of sanction based on the augmented training distribution.
 - **Decision Bands:**
   - $P \ge 0.70 \rightarrow$ `APPROVE` (`LOW` Risk)
   - $0.40 \le P < 0.70 \rightarrow$ `MANUAL_REVIEW` (`MEDIUM` Risk)
@@ -116,5 +121,6 @@ CrediWiseAI automates credit risk evaluation and loan approval probability estim
 
 ## 7. Known Dataset Limitations & Disclaimer
 
-1. **Synthetic Kaggle Characteristics:** The Kaggle dataset exhibits a sharp non-linear decision boundary around CIBIL score $\approx 550$. Ablation analysis confirms that removing `cibil_score` drops accuracy to $62.30\%$. Near-perfect test accuracy reflects this dataset-specific boundary rather than guaranteed identical performance across real-world commercial loan books.
-2. **Advisory Decision Support:** Model predictions are statistical decision aids. **CrediWiseAI does not claim that ML probability guarantees legal bank sanction or loan disbursement.**
+1. **Synthetic Augmentation Characteristics:** The dataset combines original INR-native records with synthetic applicant profiles. Synthetic augmentation does not establish real-world generalization or guarantee identical accuracy across commercial banking portfolios.
+2. **CIBIL Score Importance:** `cibil_score` exhibits strong predictive importance (~78.25%), reflecting a significant credit boundary in the source dataset.
+3. **Advisory Decision Support:** Model predictions are statistical decision aids. **CrediWiseAI does not claim that ML probability guarantees legal bank sanction or loan disbursement.**

@@ -239,7 +239,7 @@ export const Monitoring: React.FC = () => {
 
                 <div className="hidden sm:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#FBF4EC] text-[#1A2B4C] border border-[#D4A373] text-xs font-extrabold">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#D4A373]" />
-                  <span>Champion: {data.champion_model || "Gradient Boosting"}</span>
+                  <span>Champion: {data.champion_model || "Random Forest"}</span>
                 </div>
               </div>
 
@@ -256,11 +256,13 @@ export const Monitoring: React.FC = () => {
                       "4 Candidate Models",
                       "5-Fold Cross-Validation + Held-Out Test",
                       "Champion Selection",
-                      "Gradient Boosting",
-                      "loan-model-v2.0",
+                      data.champion_model || "Random Forest",
+                      data.champion_version || "loan-model-v2.1-synthetic-10000",
                       "Live Inference",
                     ].map((step, sIdx, arr) => {
-                      const isChampionStep = step === "Gradient Boosting" || step === "loan-model-v2.0";
+                      const isChampionStep =
+                        step === (data.champion_model || "Random Forest") ||
+                        step === (data.champion_version || "loan-model-v2.1-synthetic-10000");
                       return (
                         <React.Fragment key={step}>
                           <div
@@ -311,7 +313,7 @@ export const Monitoring: React.FC = () => {
                     ).map((modelName) => {
                       const metrics = data.all_models_test_metrics?.[modelName];
                       const isChampion =
-                        modelName === "Gradient Boosting" || modelName === data.champion_model;
+                        modelName === (data.champion_model || "Random Forest");
 
                       return (
                         <tr
@@ -327,7 +329,7 @@ export const Monitoring: React.FC = () => {
                               <span className="font-bold text-[#1A2B4C]">{modelName}</span>
                               {isChampion && (
                                 <span className="px-1.5 py-0.5 rounded bg-[#FBF4EC] text-[#1A2B4C] text-[10px] font-extrabold border border-[#D4A373]">
-                                  v2.0
+                                  Champion
                                 </span>
                               )}
                             </div>
@@ -389,24 +391,27 @@ export const Monitoring: React.FC = () => {
                       Five-fold stratified cross-validation and held-out test evaluation were used for comparison.
                     </li>
                     <li>
-                      Gradient Boosting was selected as the champion based on cross-validation performance and probability calibration.
+                      Cross-validation F1 score is the primary selection criterion, with CV ROC-AUC as the secondary tie-breaker.
                     </li>
                     <li>
-                      The deployed artifact is Gradient Boosting (<span className="font-mono font-semibold">{data.champion_version || "loan-model-v2.0"}</span>).
+                      {data.champion_model || "Random Forest"} achieved the highest cross-validation F1 score and was selected as the champion.
+                    </li>
+                    <li>
+                      The deployed artifact is {data.champion_model || "Random Forest"} (<span className="font-mono font-semibold">{data.champion_version || "loan-model-v2.1-synthetic-10000"}</span>).
                     </li>
                   </ul>
                 </div>
 
-                {/* What Gradient Boosting Means */}
+                {/* What Model Means */}
                 <div className="p-4 rounded-xl bg-[#F8F9FA] border border-[#E2E5E9] space-y-2">
                   <div className="flex items-center space-x-2">
                     <Info className="w-4 h-4 text-[#D4A373]" />
                     <h3 className="text-xs font-extrabold text-[#1A2B4C] uppercase tracking-wider">
-                      What 'Gradient Boosting' means here
+                      What '{data.champion_model || "Random Forest"}' means here
                     </h3>
                   </div>
                   <p className="text-xs text-[#1A2B4C] leading-relaxed">
-                    Gradient Boosting is an ensemble algorithm that builds multiple shallow decision trees sequentially, with each stage improving on the errors of previous stages. The deployed result is the prediction from this Gradient Boosting pipeline. It is <strong className="text-[#1A2B4C]">NOT</strong> a voting or averaging combination of Logistic Regression, Decision Tree, Random Forest, and Gradient Boosting.
+                    {data.champion_model || "Random Forest"} is an ensemble learning method that constructs multiple decision trees during training and aggregates their probability outputs. The deployed result is the prediction from this {data.champion_model || "Random Forest"} pipeline. It is <strong className="text-[#1A2B4C]">NOT</strong> a voting or averaging combination of Logistic Regression, Decision Tree, Random Forest, and Gradient Boosting.
                   </p>
                 </div>
               </div>
@@ -415,7 +420,7 @@ export const Monitoring: React.FC = () => {
               <div className="p-3.5 rounded-xl bg-[#FBF4EC]/40 border border-[#E2E5E9] flex items-start space-x-2.5 text-xs text-[#1A2B4C]">
                 <Info className="w-4 h-4 text-[#D4A373] flex-shrink-0 mt-0.5" />
                 <p className="leading-relaxed">
-                  <span className="font-bold">Interpretation:</span> The benchmark results reflect performance on the validated Kaggle INR dataset. They should not be interpreted as guaranteed real-world lending accuracy.
+                  <span className="font-bold">Interpretation:</span> The benchmark results reflect performance on the validated Kaggle INR dataset augmented with synthetic applicant records. They should not be interpreted as guaranteed real-world lending accuracy.
                 </p>
               </div>
             </div>
@@ -428,7 +433,7 @@ export const Monitoring: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-base font-bold text-[#1A2B4C]">Feature Importance Ranking</h2>
-                  <p className="text-xs text-[#4A5568]">Gini / tree split weight distribution from Gradient Boosting ensemble</p>
+                  <p className="text-xs text-[#4A5568]">Relative feature importance from the deployed {data.champion_model || "Random Forest"} model</p>
                 </div>
               </div>
 
@@ -461,7 +466,7 @@ export const Monitoring: React.FC = () => {
               <div className="p-3.5 rounded-xl bg-[#FBF4EC]/40 border border-[#E2E5E9] flex items-start space-x-2.5 text-xs text-[#1A2B4C]">
                 <Info className="w-4 h-4 text-[#D4A373] flex-shrink-0 mt-0.5" />
                 <p className="leading-relaxed">
-                  <span className="font-bold">How to interpret:</span> Feature importance represents the relative contribution of features to the Gradient Boosting model's tree splits. Low individual importance does not mean a feature is unused; correlated financial variables may be represented through engineered ratios such as Asset-to-Loan Coverage.
+                  <span className="font-bold">How to interpret:</span> Feature importance represents the relative contribution of features to the {data.champion_model || "Random Forest"} model's decision splits. Low individual importance does not mean a feature is unused; correlated financial variables may be represented through engineered ratios such as Asset-to-Loan Coverage.
                 </p>
               </div>
             </div>

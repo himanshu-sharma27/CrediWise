@@ -43,7 +43,7 @@ class Settings(BaseSettings):
 
     # Machine Learning Model Configuration
     MODEL_PATH: str = str(PROJECT_ROOT / "ml" / "models" / "loan_model_v2.joblib")
-    MODEL_VERSION: str = "loan-model-v2.0"
+    MODEL_VERSION: str = "loan-model-v2.1-synthetic-10000"
     DEFAULT_CURRENCY: str = "INR"
     CURRENCY_SYMBOL: str = "₹"
 

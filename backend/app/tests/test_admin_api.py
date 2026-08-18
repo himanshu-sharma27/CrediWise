@@ -87,8 +87,8 @@ def test_admin_monitoring_success(client: TestClient, admin_auth_headers):
     res = client.get("/api/v1/admin/monitoring", headers=admin_auth_headers)
     assert res.status_code == 200
     data = res.json()
-    assert data["model_version"] == "loan-model-v2.0"
-    assert data["algorithm"] == "Gradient Boosting"
+    assert data["model_version"] == "loan-model-v2.1-synthetic-10000"
+    assert data["algorithm"] == "Random Forest"
     assert data["status"] == "ACTIVE"
     assert "total_predictions" in data
     assert "average_latency_ms" in data
@@ -98,8 +98,8 @@ def test_admin_monitoring_success(client: TestClient, admin_auth_headers):
     assert "all_models_test_metrics" in data
     assert "all_models_cv_metrics" in data
     assert "candidate_models" in data
-    assert data["champion_model"] == "Gradient Boosting"
-    assert data["champion_version"] == "loan-model-v2.0"
+    assert data["champion_model"] == "Random Forest"
+    assert data["champion_version"] == "loan-model-v2.1-synthetic-10000"
     assert "Logistic Regression" in data["all_models_test_metrics"]
     assert "Decision Tree" in data["all_models_test_metrics"]
     assert "Random Forest" in data["all_models_test_metrics"]

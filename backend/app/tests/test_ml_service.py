@@ -17,13 +17,14 @@ from backend.app.services.ml_service import (
 
 
 def test_load_model_artifact_success():
-    """Verifies that the certified Kaggle ML model artifact loads and caches properly."""
+    """Verifies that the certified ML model artifact loads and caches properly."""
     bundle = load_model_artifact()
     assert bundle is not None
     assert "pipeline" in bundle
     assert "model_name" in bundle
     assert "model_version" in bundle
-    assert bundle["model_version"] == "loan-model-v2.0"
+    assert bundle["model_name"] == "Random Forest"
+    assert bundle["model_version"] == "loan-model-v2.1-synthetic-10000"
 
 
 def test_compute_deterministic_features_parity(valid_simulator_payload: Dict):
@@ -70,7 +71,7 @@ def test_predict_loan_application_prime_profile():
 
     assert result["recommendation"] == "APPROVED"
     assert result["approval_probability"] >= 0.70
-    assert result["model_version"] == "loan-model-v2.0"
+    assert result["model_version"] == "loan-model-v2.1-synthetic-10000"
     assert result["inference_latency_ms"] >= 0
     assert len(result["explanations"]) > 0
 
@@ -99,4 +100,4 @@ def test_predict_loan_application_subprime_profile():
 
     assert result["recommendation"] == "REJECTED"
     assert result["approval_probability"] <= 0.40
-    assert result["model_version"] == "loan-model-v2.0"
+    assert result["model_version"] == "loan-model-v2.1-synthetic-10000"

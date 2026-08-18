@@ -339,8 +339,8 @@ def get_model_monitoring(
     ]
 
     return AdminMonitoringResponse(
-        model_version=bundle.get("model_version", "loan-model-v2.0"),
-        algorithm=bundle.get("model_name", "Gradient Boosting"),
+        model_version=bundle.get("model_version", "loan-model-v2.1-synthetic-10000"),
+        algorithm=bundle.get("model_name", "Random Forest"),
         status="ACTIVE",
         total_predictions=total_preds,
         average_latency_ms=round(avg_latency, 2),
@@ -352,6 +352,6 @@ def get_model_monitoring(
         all_models_test_metrics=all_models_test_metrics,
         all_models_cv_metrics=all_models_cv_metrics,
         candidate_models=candidate_models,
-        champion_model=bundle.get("model_name", "Gradient Boosting"),
-        champion_version=bundle.get("model_version", "loan-model-v2.0"),
+        champion_model=bundle.get("model_name", "Random Forest"),
+        champion_version=bundle.get("model_version", "loan-model-v2.1-synthetic-10000"),
     )

@@ -36,7 +36,7 @@ export const RulesPage: React.FC = () => {
             Rules, Criteria &amp; Disclaimers
           </h1>
           <p className="text-base sm:text-lg text-[#4A5568] font-normal">
-            Understand how CrediWise evaluates loan applications using the calibrated Kaggle INR machine learning model (<code className="text-[#1A2B4C] font-mono">loan-model-v2.0</code>).
+            Understand how CrediWise evaluates loan applications using the calibrated INR machine learning model (<code className="text-[#1A2B4C] font-mono">{rules?.model_version || "loan-model-v2.1-synthetic-10000"}</code>).
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export const RulesPage: React.FC = () => {
                   <span>Model Target</span>
                 </div>
                 <p className="text-2xl font-extrabold text-[#1A2B4C]">{rules.model_version}</p>
-                <p className="text-xs text-[#4A5568]">Certified Gradient Boosting Architecture</p>
+                <p className="text-xs text-[#4A5568]">Certified {rules.algorithm || "Random Forest"} Architecture</p>
               </div>
 
               <div className="space-y-2">

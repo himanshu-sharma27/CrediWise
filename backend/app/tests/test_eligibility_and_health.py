@@ -15,7 +15,7 @@ def test_health_check_endpoint(client: TestClient):
     data = response.json()
 
     assert data["status"] == "ok"
-    assert data["model_version"] == "loan-model-v2.0"
+    assert data["model_version"] == "loan-model-v2.1-synthetic-10000"
     assert data["model_loaded"] is True
     assert data["database"] == "SQLite"
     assert data["currency"] == "INR"
@@ -30,7 +30,7 @@ def test_eligibility_rules_endpoint(client: TestClient):
 
     assert data["currency"] == "INR"
     assert data["currency_symbol"] == "₹"
-    assert data["model_version"] == "loan-model-v2.0"
+    assert data["model_version"] == "loan-model-v2.1-synthetic-10000"
     assert len(data["features"]) == 11
     assert "cibil_score_guide" in data
 

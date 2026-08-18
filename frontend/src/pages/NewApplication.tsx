@@ -113,7 +113,7 @@ export const NewApplication: React.FC = () => {
       setLoadingStep("Creating loan application record...");
       const createdApp = await api.applications.createApplication(formData);
 
-      setLoadingStep("Evaluating ML Gradient Boosting prediction...");
+      setLoadingStep("Evaluating ML model prediction...");
       await api.predictions.generatePrediction(createdApp.id);
 
       navigate(`/applications/${createdApp.id}/result`);

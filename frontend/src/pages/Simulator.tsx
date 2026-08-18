@@ -133,7 +133,7 @@ export const Simulator: React.FC = () => {
                 What-If Loan Simulator
               </h1>
               <p className="text-sm text-[#4A5568]">
-                Adjust financial parameters to explore sensitivity against the certified Gradient Boosting ML model in real-time.
+                Adjust financial parameters to explore sensitivity against the certified ML model in real-time.
               </p>
             </div>
 
@@ -451,7 +451,7 @@ export const Simulator: React.FC = () => {
                 <div className="p-4 rounded-xl bg-[#FBF4EC]/40 border border-[#E2E5E9] flex items-start space-x-3 text-xs text-[#1A2B4C]">
                   <Info className="w-4 h-4 text-[#D4A373] flex-shrink-0 mt-0.5" />
                   <p className="leading-relaxed">
-                    This sandbox evaluates the live Gradient Boosting ML pipeline without storing application records. When satisfied with your parameters, you can submit a formal assessment.
+                    This sandbox evaluates the live ML pipeline without storing application records. When satisfied with your parameters, you can submit a formal assessment.
                   </p>
                 </div>
 

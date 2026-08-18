@@ -1,6 +1,6 @@
 # CrediWiseAI — Model Explainability & Factor Attribution Report
 
-> **Model Identifier:** `loan-model-v2.0` (Gradient Boosting Classifier)  
+> **Model Identifier:** `loan-model-v2.1-synthetic-10000` (Random Forest Classifier)  
 > **Currency Base:** Indian Rupee (INR / ₹)  
 > **Explainability Scope:** Global Feature Importances, Local Factor Attribution, and Stress Profile Analysis
 
@@ -8,28 +8,30 @@
 
 ## 1. Global Feature Importances
 
-The champion Gradient Boosting model distributes decision weight across the following primary features:
+The champion Random Forest model distributes decision weight across the following primary features:
 
 | Rank | Feature Name | Importance Weight | Cumulative Weight | Domain Interpretation |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | `cibil_score` | **81.03%** | 81.03% | Credit bureau repayment history & default risk |
-| **2** | `estimated_payment_to_income_ratio` | **11.22%** | 92.25% | Monthly principal burden relative to monthly cash flow |
-| **3** | `loan_to_annual_income_ratio` | **3.80%** | 96.05% | Overall borrowing leverage multiple |
-| **4** | `loan_to_monthly_income_ratio` | **2.52%** | 98.57% | Short-term debt-to-income multiple |
-| **5** | `asset_to_loan_ratio` | **1.35%** | 99.92% | Total asset collateral coverage ratio |
-| **6** | `bank_asset_value` | **0.04%** | 99.96% | Liquid emergency deposit cushion |
-| **7** | `loan_term_months` | **0.02%** | 99.98% | Loan tenure duration |
-| **8** | `loan_term` | **0.01%** | 99.99% | Loan tenure in years |
-| **9-20** | All other features | **< 0.01%** | 100.00% | Marginal secondary adjustments |
+| **1** | `cibil_score` | **78.25%** | 78.25% | Credit bureau repayment history & default risk |
+| **2** | `estimated_payment_to_income_ratio` | **3.68%** | 81.93% | Monthly principal burden relative to monthly cash flow |
+| **3** | `loan_to_monthly_income_ratio` | **2.16%** | 84.09% | Short-term debt-to-income multiple |
+| **4** | `loan_term` | **2.07%** | 86.16% | Repayment tenure in years |
+| **5** | `loan_to_annual_income_ratio` | **2.03%** | 88.19% | Overall borrowing leverage multiple |
+| **6** | `asset_to_loan_ratio` | **1.93%** | 90.12% | Total asset collateral coverage ratio |
+| **7** | `loan_term_months` | **1.75%** | 91.87% | Repayment tenure in months |
+| **8** | `estimated_principal_monthly_payment` | **1.35%** | 93.22% | Monthly principal repayment requirement |
+| **9** | `loan_amount` | **0.85%** | 94.07% | Requested principal amount |
+| **10** | `commercial_assets_value` | **0.82%** | 94.89% | Commercial property collateral backing |
+| **11-20** | Remaining Features | **5.11%** | 100.00% | Secondary financial variables & demographics |
 
 ---
 
-## 2. Dominant Feature Analysis & Kaggle Dataset Dynamics
+## 2. Dominant Feature Analysis & Dataset Dynamics
 
 ### 2.1 The Role of CIBIL Score
-- **Primary Driver:** `cibil_score` accounts for **81.03%** of the model's predictive weight.
-- **Decision Threshold:** In this dataset, CIBIL scores $\ge 550$ represent an almost deterministic positive boundary, while scores $< 550$ face high rejection probabilities.
-- **Secondary Modifiers:** When CIBIL score is near the boundary or moderate, the model evaluates `estimated_payment_to_income_ratio` and `loan_to_annual_income_ratio` to finalize the approval confidence.
+- **Primary Driver:** `cibil_score` accounts for **78.25%** of the model's predictive weight.
+- **Decision Threshold:** CIBIL scores $\ge 650$ establish high approval probabilities ($> 80\%$), while scores $< 550$ face significant default risk weighting and rejection probabilities.
+- **Secondary Modifiers:** For applicants in borderline bands, the model heavily factors in `estimated_payment_to_income_ratio`, `loan_to_monthly_income_ratio`, and `asset_to_loan_ratio` to determine the outcome.
 
 ---
 
@@ -54,12 +56,12 @@ For real-time applicant feedback and administrative review, `backend/app/service
 
 ## 4. Realistic Indian Applicant Stress Test Results
 
-Five realistic Indian applicant profiles were evaluated through the production pipeline:
+Realistic Indian applicant profiles were evaluated through the production pipeline:
 
 ```mermaid
 graph TD
     A[Applicant Profile] --> B[Deterministic Preprocessor]
-    B --> C[loan-model-v2.0 Gradient Boosting]
+    B --> C[loan-model-v2.1-synthetic-10000 Random Forest]
     C --> D{Approval Probability}
     D -->|P >= 0.70| E[APPROVE - Low Risk]
     D -->|0.40 <= P < 0.70| F[MANUAL_REVIEW - Medium Risk]
@@ -70,16 +72,16 @@ graph TD
 
 | Profile Name | CIBIL | Monthly Income | Loan Principal | Tenure | Approval Prob | Recommendation | Risk Level | Key Factor Attribution |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1. Strong Indian Applicant** | **780** | ₹1,00,000 | ₹15,00,000 | 60 mo | **99.98%** | `APPROVE` | `LOW` | Excellent CIBIL (780), solid asset backing (₹63L total), low payment ratio (0.25) |
-| **2. Moderate Indian Applicant** | **700** | ₹60,000 | ₹8,00,000 | 60 mo | **99.98%** | `APPROVE` | `LOW` | Good CIBIL (700), conservative loan multiple (1.11x annual income) |
-| **3. Borderline Applicant** | **650** | ₹50,000 | ₹10,00,000 | 48 mo | **99.98%** | `APPROVE` | `LOW` | Sufficient CIBIL (650), moderate payment-to-income ratio (0.42) |
-| **4. High Risk Applicant** | **560** | ₹35,000 | ₹12,00,000 | 36 mo | **0.04%** | `REJECT` | `HIGH` | Low CIBIL (560), high leverage (2.86x income), steep payment burden (0.95) |
-| **5. Sub-550 CIBIL Applicant** | **450** | ₹40,000 | ₹10,00,000 | 36 mo | **0.04%** | `REJECT` | `HIGH` | Critical sub-550 CIBIL (450), severe default risk boundary |
+| **1. Strong Indian Applicant** | **780** | ₹1,00,000 | ₹15,00,000 | 60 mo | **89.01%** | `APPROVE` | `LOW` | Excellent CIBIL (780), solid asset backing (₹63L total), conservative payment ratio |
+| **2. Moderate Indian Applicant** | **700** | ₹60,000 | ₹8,00,000 | 60 mo | **89.83%** | `APPROVE` | `LOW` | Good CIBIL (700), conservative loan multiple (1.11x annual income) |
+| **3. Borderline Applicant** | **650** | ₹50,000 | ₹10,00,000 | 48 mo | **82.36%** | `APPROVE` | `LOW` | Sufficient CIBIL (650), manageable payment-to-income ratio |
+| **4. High Risk Applicant** | **560** | ₹35,000 | ₹12,00,000 | 36 mo | **62.90%** | `MANUAL_REVIEW` | `MEDIUM` | Moderate CIBIL (560), high debt burden requiring underwriter inspection |
+| **5. Sub-550 CIBIL Applicant** | **450** | ₹40,000 | ₹10,00,000 | 36 mo | **35.18%** | `REJECT` | `HIGH` | Critical sub-550 CIBIL (450), elevated default probability |
 
 ---
 
 ## 5. Ethical Disclosures & Governance Limits
 
-1. **Advisory Decision Support:** Model probabilities reflect statistical risk calculated on historical Kaggle loan approval data. They do **not** constitute a formal bank guarantee or legal underwriting commitment.
+1. **Advisory Decision Support:** Model probabilities reflect statistical risk calculated on historical data augmented with synthetic applicant records. They do **not** constitute a formal bank guarantee or legal underwriting commitment.
 2. **Fairness & Non-Discrimination:** Protected demographic attributes (gender, age, religion, marital status, caste) are completely excluded from the dataset and model pipeline.
 3. **Transparent Explanations:** Every prediction is paired with plain-language positive and negative factors, ensuring applicants and loan officers understand the exact rationale behind every decision.

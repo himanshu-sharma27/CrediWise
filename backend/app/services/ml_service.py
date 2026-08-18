@@ -1,7 +1,7 @@
 """CrediWiseAI - Machine Learning Inference Service.
 
 Single source of truth for loading the locked Kaggle INR-native model artifact
-(loan-model-v2.0), computing deterministic engineered features, running inference,
+(loan-model-v2.1-synthetic-10000), computing deterministic engineered features, running inference,
 and producing transparent factor explanations.
 """
 

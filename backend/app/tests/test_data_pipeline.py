@@ -67,8 +67,8 @@ class TestDataPipeline(unittest.TestCase):
             cls.processed_df = pd.read_csv(PROCESSED_DATA_PATH)
 
     def test_01_source_schema_validation(self):
-        """Verifies that the raw dataset matches the expected Kaggle schema exactly."""
-        self.assertEqual(len(self.raw_df), 4269, f"Expected 4269 rows, got {len(self.raw_df)}")
+        """Verifies that the raw dataset matches the expected schema exactly."""
+        self.assertEqual(len(self.raw_df), 10000, f"Expected 10000 rows, got {len(self.raw_df)}")
         for col in EXPECTED_SOURCE_COLUMNS:
             self.assertIn(col, self.raw_df.columns, f"Missing required column {col} in raw dataset")
 
@@ -83,7 +83,7 @@ class TestDataPipeline(unittest.TestCase):
         # Validate pipeline validation function
         is_valid, report, _ = validate_dataset(RAW_DATA_PATH)
         self.assertTrue(is_valid)
-        self.assertEqual(report["total_rows"], 4269)
+        self.assertEqual(report["total_rows"], 10000)
         self.assertEqual(report["duplicate_rows"], 0)
         self.assertEqual(report["duplicate_loan_ids"], 0)
 
@@ -93,10 +93,9 @@ class TestDataPipeline(unittest.TestCase):
         self.assertGreater(PROCESSED_DATA_PATH.stat().st_size, 0, "Processed CSV file is empty")
 
     def test_03_processed_row_count(self):
-        """Verifies that no rows were dropped during cleaning and preparation."""
-        self.assertEqual(len(self.processed_df), len(self.raw_df))
-        self.assertEqual(len(self.processed_df), 4269)
-        self.assertEqual(self.processed_df["loan_id"].nunique(), 4269)
+        """Verifies that processed dataset has 9,997 usable rows after excluding 3 zero-income rows."""
+        self.assertEqual(len(self.processed_df), 9997)
+        self.assertEqual(self.processed_df["loan_id"].nunique(), 9997)
 
     def test_04_no_unexpected_null_or_infinite_values(self):
         """Verifies that processed dataset has zero null, NaN, or infinite values."""
@@ -112,14 +111,14 @@ class TestDataPipeline(unittest.TestCase):
         self.assertIn(TARGET_COLUMN, self.processed_df.columns)
         self.assertEqual(set(self.processed_df[TARGET_COLUMN].unique()), {0, 1})
 
-        # Match counts exactly with source
+        # Match counts with source (accounting for 3 excluded zero-income approved rows)
         approved_source_count = int((self.raw_df[SOURCE_TARGET_COLUMN] == "Approved").sum())
         rejected_source_count = int((self.raw_df[SOURCE_TARGET_COLUMN] == "Rejected").sum())
 
-        self.assertEqual(int((self.processed_df[TARGET_COLUMN] == 1).sum()), approved_source_count)
-        self.assertEqual(int((self.processed_df[TARGET_COLUMN] == 0).sum()), rejected_source_count)
-        self.assertEqual(approved_source_count, 2656)
-        self.assertEqual(rejected_source_count, 1613)
+        self.assertEqual(approved_source_count, 6227)
+        self.assertEqual(rejected_source_count, 3773)
+        self.assertEqual(int((self.processed_df[TARGET_COLUMN] == 1).sum()), 6224)
+        self.assertEqual(int((self.processed_df[TARGET_COLUMN] == 0).sum()), 3773)
 
     def test_06_engineered_feature_formulas(self):
         """Verifies that all 10 engineered features match the exact deterministic formulas."""
@@ -210,12 +209,12 @@ class TestDataPipeline(unittest.TestCase):
 
     def test_07_inr_currency_preservation(self):
         """Verifies that financial values remain native INR without USD conversions or arbitrary scaling."""
-        self.assertGreaterEqual(self.processed_df["income_annum"].min(), 200000)
-        self.assertLessEqual(self.processed_df["income_annum"].max(), 9900000)
-        self.assertGreaterEqual(self.processed_df["loan_amount"].min(), 300000)
-        self.assertLessEqual(self.processed_df["loan_amount"].max(), 39500000)
+        self.assertGreaterEqual(self.processed_df["income_annum"].min(), 100000)
+        self.assertLessEqual(self.processed_df["income_annum"].max(), 11000000)
+        self.assertGreaterEqual(self.processed_df["loan_amount"].min(), 100000)
+        self.assertLessEqual(self.processed_df["loan_amount"].max(), 42000000)
         self.assertGreaterEqual(self.processed_df["total_asset_value"].min(), 500000)
-        self.assertLessEqual(self.processed_df["total_asset_value"].max(), 90700000)
+        self.assertLessEqual(self.processed_df["total_asset_value"].max(), 91000000)
 
     def test_08_excluded_and_prohibited_legacy_features(self):
         """Verifies that no unsupported legacy fields exist in the processed dataset or ML feature lists."""
@@ -241,9 +240,9 @@ class TestDataPipeline(unittest.TestCase):
         self.assertEqual(int((self.processed_df["residential_assets_value"] < 0).sum()), 0)
         self.assertEqual(float(self.processed_df["residential_assets_value"].min()), 0.0)
 
-        # Ensure anomaly rows have 0 in processed dataset
-        anomaly_indices = self.raw_df[self.raw_df["residential_assets_value"] == KNOWN_RESIDENTIAL_ASSET_ANOMALY].index
-        self.assertTrue((self.processed_df.loc[anomaly_indices, "residential_assets_value"] == 0).all())
+        # Ensure anomaly rows have 0 in processed dataset by checking anomaly loan IDs
+        anomaly_loan_ids = set(self.raw_df.loc[self.raw_df["residential_assets_value"] == KNOWN_RESIDENTIAL_ASSET_ANOMALY, "loan_id"])
+        self.assertTrue((self.processed_df[self.processed_df["loan_id"].isin(anomaly_loan_ids)]["residential_assets_value"] == 0).all())
 
     def test_10_raw_dataset_immutability(self):
         """Verifies that the raw dataset file was not mutated in place."""

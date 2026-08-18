@@ -1,15 +1,15 @@
 # CrediWiseAI — REST API Specification
 
-> **Version:** 2.0.0  
+> **Version:** 2.1.0  
 > **Base URL:** `/api/v1`  
 > **Target Currency:** Indian Rupee (INR / ₹)  
-> **Model Version:** `loan-model-v2.0` (Gradient Boosting Classifier)
+> **Model Version:** `loan-model-v2.1-synthetic-10000` (Random Forest Classifier)
 
 ---
 
 ## 1. Overview & Authentication
 
-CrediWiseAI exposes a stateless RESTful API adhering strictly to the **11 Kaggle INR-Native Features** and Role-Based Access Control (RBAC).
+CrediWiseAI exposes a stateless RESTful API adhering strictly to the **11 INR-Native Features** and Role-Based Access Control (RBAC).
 
 ### Authentication Scheme
 - **Standard:** HTTP Bearer Token (`OAuth2PasswordBearer`)
@@ -23,7 +23,7 @@ CrediWiseAI exposes a stateless RESTful API adhering strictly to the **11 Kaggle
 
 ---
 
-## 2. Strict Kaggle INR-Native Feature Contract
+## 2. Strict INR-Native Feature Contract
 
 All loan application submissions and simulator requests require the following 11 canonical features:
 
@@ -58,11 +58,11 @@ Checks backend and ML artifact operational status.
 {
   "status": "ok",
   "project": "CrediWise - Smart Loan Decision Platform",
-  "model_version": "loan-model-v2.0",
+  "model_version": "loan-model-v2.1-synthetic-10000",
   "model_loaded": true,
   "database": "SQLite",
   "currency": "INR",
-  "timestamp": "2026-08-15T12:00:00.000000Z"
+  "timestamp": "2026-08-18T12:00:00.000000Z"
 }
 ```
 
@@ -78,8 +78,8 @@ Returns public underwriting criteria and benchmark distributions.
 {
   "currency": "INR",
   "currency_symbol": "₹",
-  "model_version": "loan-model-v2.0",
-  "algorithm": "Gradient Boosting Classifier (Calibrated)",
+  "model_version": "loan-model-v2.1-synthetic-10000",
+  "algorithm": "Random Forest",
   "features": [
     {
       "field_name": "income_annum",

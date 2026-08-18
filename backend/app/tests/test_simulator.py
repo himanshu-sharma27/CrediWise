@@ -27,7 +27,7 @@ def test_simulator_inference_success(
     assert response.status_code == 200
     data = response.json()
 
-    assert data["model_version"] == "loan-model-v2.0"
+    assert data["model_version"] == "loan-model-v2.1-synthetic-10000"
     assert data["recommendation"] in ["APPROVED", "REJECTED"]
     assert 0.0 <= data["approval_probability"] <= 1.0
     assert "derived_indicators" in data
@@ -47,7 +47,7 @@ def test_simulator_alias_simulate_endpoint(
     """Verifies /predictions/simulate alias works identically."""
     response = client.post("/api/v1/predictions/simulate", json=valid_simulator_payload)
     assert response.status_code == 200
-    assert response.json()["model_version"] == "loan-model-v2.0"
+    assert response.json()["model_version"] == "loan-model-v2.1-synthetic-10000"
 
 
 def test_simulator_sensitivity_cibil_increase(

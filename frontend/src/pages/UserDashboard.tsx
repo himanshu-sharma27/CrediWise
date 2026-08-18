@@ -206,7 +206,7 @@ export const UserDashboard: React.FC = () => {
             <div>
               <h2 className="text-xl font-bold text-[#1A2B4C]">Recent Loan Assessments</h2>
               <p className="text-xs text-[#718096] mt-0.5">
-                Past applications evaluated under certified Gradient Boosting inference.
+                Past applications evaluated under certified ML inference.
               </p>
             </div>
           </div>

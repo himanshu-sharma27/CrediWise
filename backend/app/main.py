@@ -37,8 +37,9 @@ async def lifespan(app: FastAPI):
 
     # 2. Warm up / cache ML Model Artifact
     try:
-        load_model_artifact()
-        logger.info("ML Model Artifact (loan-model-v2.0) cached successfully.")
+        bundle = load_model_artifact()
+        version_str = bundle.get("model_version", settings.MODEL_VERSION) if bundle else settings.MODEL_VERSION
+        logger.info(f"ML Model Artifact ({version_str}) cached successfully.")
     except Exception as e:
         logger.error(f"Failed to load ML Model Artifact during startup: {e}")
 
@@ -49,7 +50,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.PROJECT_VERSION,
-    description="Intelligent loan approval prediction and risk explainability API powered by Gradient Boosting ML (INR Native).",
+    description="Intelligent loan approval prediction and risk explainability API powered by Random Forest ML (INR Native).",
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -75,16 +76,19 @@ app.add_middleware(
 def health_check() -> HealthCheckResponse:
     """Returns system status, active database backend, and ML model status."""
     is_model_loaded = False
+    model_ver = settings.MODEL_VERSION
     try:
         bundle = load_model_artifact()
         is_model_loaded = bundle is not None
+        if bundle and "model_version" in bundle:
+            model_ver = bundle["model_version"]
     except Exception:
         is_model_loaded = False
 
     return HealthCheckResponse(
         status="ok",
         project=settings.PROJECT_NAME,
-        model_version=settings.MODEL_VERSION,
+        model_version=model_ver,
         model_loaded=is_model_loaded,
         database="SQLite",
         currency=settings.DEFAULT_CURRENCY,

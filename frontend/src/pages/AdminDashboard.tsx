@@ -277,7 +277,7 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                   <h3 className="font-bold text-[#1A2B4C] text-base">Model Telemetry</h3>
                   <p className="text-xs text-[#4A5568] leading-relaxed">
-                    Track Gradient Boosting ML latency, test metrics, and feature importances.
+                    Track ML latency, test metrics, and feature importances.
                   </p>
                   <div className="flex items-center space-x-1 text-xs font-bold text-[#D4A373] group-hover:translate-x-1 transition-transform pt-1">
                     <span>View Telemetry</span>

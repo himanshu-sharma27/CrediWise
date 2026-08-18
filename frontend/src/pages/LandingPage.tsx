@@ -62,7 +62,7 @@ export const LandingPage: React.FC = () => {
 
         {/* Hero Subtitle */}
         <p className="text-lg sm:text-xl text-[#4A5568] max-w-3xl mx-auto leading-relaxed mb-10 font-normal">
-          <strong className="text-[#1A2B4C] font-bold">CrediWise</strong> evaluates applicant financial information using an explainable Gradient Boosting machine-learning model, delivering real-time approval probabilities, risk scores, and clear factor attributions in native Indian Rupees (₹).
+          <strong className="text-[#1A2B4C] font-bold">CrediWise</strong> evaluates applicant financial information using an explainable machine learning model, delivering real-time approval probabilities, risk scores, and clear factor attributions in native Indian Rupees (₹).
         </p>
 
         {/* Hero CTAs */}
