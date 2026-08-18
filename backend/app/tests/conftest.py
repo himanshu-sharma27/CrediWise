@@ -73,7 +73,16 @@ def client(db_session: Session) -> Generator[TestClient, None, None]:
 
 @pytest.fixture(scope="function")
 def test_user(db_session: Session) -> User:
-    """Creates a standard test applicant user with role='user'."""
+    """Creates or retrieves a standard test applicant user with role='user'."""
+    user = db_session.query(User).filter(User.email == "rajesh.sharma@example.com").first()
+    if user is not None:
+        user.password_hash = get_password_hash("Password@123")
+        user.role = "user"
+        user.is_active = True
+        db_session.commit()
+        db_session.refresh(user)
+        return user
+
     user = User(
         name="Rajesh Sharma",
         email="rajesh.sharma@example.com",
@@ -89,7 +98,16 @@ def test_user(db_session: Session) -> User:
 
 @pytest.fixture(scope="function")
 def other_user(db_session: Session) -> User:
-    """Creates a secondary test user to verify ownership isolation."""
+    """Creates or retrieves a secondary test user to verify ownership isolation."""
+    user = db_session.query(User).filter(User.email == "priya.patel@example.com").first()
+    if user is not None:
+        user.password_hash = get_password_hash("Password@123")
+        user.role = "user"
+        user.is_active = True
+        db_session.commit()
+        db_session.refresh(user)
+        return user
+
     user = User(
         name="Priya Patel",
         email="priya.patel@example.com",
@@ -105,7 +123,16 @@ def other_user(db_session: Session) -> User:
 
 @pytest.fixture(scope="function")
 def test_admin(db_session: Session) -> User:
-    """Creates an administrator user with role='admin'."""
+    """Creates or retrieves an administrator user with role='admin'."""
+    admin = db_session.query(User).filter(User.email == "admin@credwise.ai").first()
+    if admin is not None:
+        admin.password_hash = get_password_hash("AdminSecret@123")
+        admin.role = "admin"
+        admin.is_active = True
+        db_session.commit()
+        db_session.refresh(admin)
+        return admin
+
     admin = User(
         name="Admin Reviewer",
         email="admin@credwise.ai",
